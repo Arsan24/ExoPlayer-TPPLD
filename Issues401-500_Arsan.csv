@@ -1,0 +1,3778 @@
+number,title,state,created_at,updated_at,closed_at,body,labels,assignees,milestone,comments
+10869,How do i know the app loss audio focus because another  music app is getting focus,closed,2022-12-16 06:45:28,2023-03-28 01:06:15,2023-01-26 14:40:38,"I try to get the suppression reason by ` player.getPlaybackSuppressionReason()`  after another  music app is playing, but the result is always 0, But the result is 1, when phone calling is coming
+
+**Exoplayer Version: 2.11.4**",['question'],['tonihei'],,2
+10868,How create emulator profile with a decoder capability HEVC 4K,closed,2022-12-14 15:57:45,2023-03-25 01:05:25,2023-01-23 10:46:51,"
+
+I am trying to check if a not TV device is capable for playing 4K videos for type HEVC.
+
+I do not have a phisic 4K device, instead I am creating a new one with the android emulator. I put the profile for 4K, I mean, 3840 x 2160.
+
+I need specifically the capability for hevc 4K, so I have to check with my code if the devide can do it. 
+The problem is that there is no profiles that matches wih that requirements. This is my code:
+
+```
+    private boolean check4kDeviceCapability() {
+        MediaCodecInfo[] decoderInfos = new MediaCodecList(MediaCodecList.REGULAR_CODECS).getCodecInfos();
+        for (MediaCodecInfo decoderInfo : decoderInfos) {
+            if (!decoderInfo.isEncoder() && decoderInfo.getSupportedTypes() != null
+                    && decoderInfo.getSupportedTypes().length > 0) {
+                for (String supportedType : decoderInfo.getSupportedTypes()) {
+                    if (supportedType.equals(""video/hevc"")) {
+                        MediaCodecInfo.CodecCapabilities capabilities =
+                                decoderInfo.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_HEVC);
+                        if (capabilities.getVideoCapabilities().isSizeSupported(3840, 2160)) {
+                            Timber.i(""4K source would be supported with this device"");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+```",['question'],['microkatz'],,9
+10867,Some subtitles tracks stop playing after upgrade to 2.18.2 from 2.18.1,closed,2022-12-14 15:31:56,2023-02-13 02:05:53,2022-12-14 16:09:27,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Pixel 4a 
+Fire Stick Max
+
+### Devices that do not reproduce the issue
+
+None
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+none
+
+### Expected result
+
+play subtitle track
+
+### Actual result
+
+`at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:621)
+                                                                                                          at android.os.Handler.dispatchMessage(Handler.java:102)
+                                                                                                          at android.os.Looper.loop(Looper.java:193)
+                                                                                                          at android.os.HandlerThread.run(HandlerThread.java:65)
+                                                                                                      Caused by: java.lang.ArrayIndexOutOfBoundsException: length=0; index=-1
+                                                                                                          at com.google.android.exoplayer2.text.ttml.TtmlSubtitle.getEventTime(TtmlSubtitle.java:62)
+                                                                                                          at com.google.android.exoplayer2.text.SubtitleOutputBuffer.getEventTime(SubtitleOutputBuffer.java:53)
+                                                                                                          at com.google.android.exoplayer2.text.TextRenderer.getCurrentEventTimeUs(TextRenderer.java:426)
+                                                                                                          at com.google.android.exoplayer2.text.TextRenderer.render(TextRenderer.java:259)
+                                                                                                          at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:994)
+                                                                                                          at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495)
+                                                                                                          at android.os.Handler.dispatchMessage(Handler.java:102) 
+                                                                                                          at android.os.Looper.loop(Looper.java:193) 
+                                                                                                          at android.os.HandlerThread.run(HandlerThread.java:65) `
+
+### Media
+
+none
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['icbaker'],,5
+10866,Not played .mpd and .m2u8 files fine. ,closed,2022-12-14 14:18:27,2023-06-17 01:05:10,2023-04-17 11:51:15,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+The app was working fine with this code snippet however it stopped working a week ago and I don't have the error log. 
+
+
+### Actual result
+
+
+E/BufferQueueProducer: [SurfaceTexture-1-8305-2](id:207100000009,api:3,p:8305,c:8305) waitForFreeSlotThenRelock TIMED_OUT 0
+E/BufferQueueProducer: BQDUMP- BufferQueue mMaxAcquiredBufferCount=1 mMaxDequeuedBufferCount=32
+    BQDUMP  mDequeueBufferCannotBlock=0 mAsyncMode=0
+    BQDUMP  mQueueBufferCanDrop=1 mLegacyBufferDrop=1
+    BQDUMP  default-size=[1x1] default-format=1 BQDUMP  transform-hint=00 frame-counter=0
+    BQDUMP  mTransformHintInUse=00 mAutoPrerotation=0
+    BQDUMPFIFO(0):
+    BQDUMP(mConsumerName=SurfaceTexture-1-8305-2, mConnectedApi=3, mConsumerUsageBits=256, mId=207100000009, producer=[8305:com.inkamedia.inkaplay], consumer=[8305:com.inkamedia.inkaplay])
+    BQDUMPSlots:
+    BQDUMP  [00:0xb40000715c408500] state=DEQUEUED 0xb40000715c438c00 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [01:0xb4000070a87b5800] state=DEQUEUED 0xb40000715c4ba980 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [02:0xb4000070a87b5900] state=DEQUEUED 0xb4000070cd51e200 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [03:0xb4000070a87b5a00] state=DEQUEUED 0xb4000070ea27c480 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [04:0xb4000070a87b5b00] state=DEQUEUED 0xb4000070ea27c600 frame=0 [ 640x 360: 640,32315659]
+    BQ
+E/BufferQueueProducer: Slots:
+    BQDUMP  [00:0xb40000715c408500] state=DEQUEUED 0xb40000715c438c00 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [01:0xb4000070a87b5800] state=DEQUEUED 0xb40000715c4ba980 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [02:0xb4000070a87b5900] state=DEQUEUED 0xb4000070cd51e200 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [03:0xb4000070a87b5a00] state=DEQUEUED 0xb4000070ea27c480 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [04:0xb4000070a87b5b00] state=DEQUEUED 0xb4000070ea27c600 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [05:0xb400007061bc8300] state=DEQUEUED 0xb4000070ea27c780 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [06:0xb400007061bc8400] state=DEQUEUED 0xb4000070ea27c900 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [07:0xb400007061bc8500] state=DEQUEUED 0xb4000070ea055700 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [08:0xb400007061bc8600] state=DEQUEUED 0xb4000070ea055880 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [09:0xb400007061bc8700] state=DEQUEUED 0xb4000070ea055a00 frame=0 [ 640x 360: 640,32315659]
+    BQDUMP  [10:0xb4
+
+### Media
+
+...
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['microkatz'],,2
+10865,Let AudioSink indicate if playback speed changes are supported to avoid unnecessary live speed adjustments,open,2022-12-13 22:30:45,2023-01-05 08:51:48,,"### ExoPlayer Version
+
+2.15.0
+
+### Devices that reproduce the issue
+
+Tivo Streaming device running Android 10
+Nvidia Sheild running Android 11
+
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+1) Apply attached patch ""patch-r2.15.0.txt"" to branch at tag r2.15.0. This will generate logs referenced in ""Actual result"" section below, or you can use your own logging.  
+2) Play a working (AAC audio) stream and compare with Non-Working (AC3 stream).
+
+### Expected result
+
+Playback speed for AC3 streams should adjust to push liveOffsetUs up to idealTargetLiveOffsetUs. 
+
+### Actual result
+
+Note in the logs:
+       For AAC: liveOffsetUs → currentTargetLiveOffsetUs and adjustedPlaybackSpeed → 1.0 eventually
+       For AC3: liveOffsetUs does not move towards currentTargetLiveOffsetUs and adjustedPlaybackSpeed stays at 1.3
+
+In both cases above currentTargetLiveOffsetUs →idealTargetLiveOffsetUs, which should be expected behavior. So AAC will eventually end up at the playback position of idealTargetLiveOffsetUs, but not AC3. 
+
+The same behavior is seen in r.2.18.X as well as androidx/media (some adjustments are required to trigger/force Playback Speed Control because of [commit](https://github.com/google/ExoPlayer/commit/b09b8dc2aba5f4b54d76a0b958c62aeb5e5b8075), https://github.com/google/ExoPlayer/issues/9329)
+
+### Media
+
+[patch-r2.15.0.txt](https://github.com/google/ExoPlayer/files/10222594/patch-r2.15.0.txt)
+Media streaming information will be sent separately via email. 
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['enhancement'],['tonihei'],,7
+10864,Are there settings for quality on mp4/mkv?,open,2022-12-13 19:29:01,2023-01-03 19:04:33,,"I have a casting app. On Android TV it can use Google Cast or an ExoPlayer receiver. On Fire TV it can use Amazon Fling or our ExoPlayer receiver. 
+
+I've had users report that Google Cast or Amazon Fling display better quality than our ExoPlayer receiver. Same TV, same streaming device, same mp4/mkv video. 
+
+Neither Google Cast nor Fling offer any kind o configuration for quality. Does ExoPlayer offer anything?
+
+It isn't a huge difference but it does look like there is a difference. 
+
+ExoPlayer:
+![PXL_20221213_171219815](https://user-images.githubusercontent.com/1638377/207425742-66a7a320-dbf1-40d2-a432-43736aff1668.jpg)
+
+Amazon Fling:
+![PXL_20221213_180446763](https://user-images.githubusercontent.com/1638377/207425796-97c185d4-4694-49af-a9ea-e5d11dfd38a6.jpg)
+
+Google Cast:
+![IMG_0349](https://user-images.githubusercontent.com/1638377/207426085-c65b0d54-e965-45d2-8220-d1ceeb12ec60.jpg)
+
+ExoPlayer:
+![IMG_0348](https://user-images.githubusercontent.com/1638377/207426101-fd6e75b7-5a97-42fb-8b43-bf86e7160235.jpg)
+
+Is there anything I can do to help with this? I'm using 2.17.1 without any extras like ffmpeg for example. 
+
+Thanks. 
+
+",['question'],['microkatz'],,2
+10863,Operation not supported in this configuration exception thrown with Chromecast's secure H264 decoder,open,2022-12-13 14:35:45,2022-12-16 14:59:23,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+* Chromecast with Google TV 4K (2020) - Android 12
+
+### Devices that do not reproduce the issue
+
+* LG G7 ThinQ - Android 10
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+1. Update the demo app to use drm sessions for clear content in createMediaSourceFactory:
+
+```    DataSource.Factory dataSourceFactory = DemoUtil.getHttpDataSourceFactory(/* context= */ this);
+    DrmSessionManagerProvider drmSessionManagerProvider = new DrmSessionManagerProvider() {
+      @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+      @Override
+      public DrmSessionManager get(MediaItem mediaItem) {
+        return  new DefaultDrmSessionManager.Builder()
+            .setUseDrmSessionsForClearContent(C.TRACK_TYPE_AUDIO, C.TRACK_TYPE_VIDEO)
+            .build(new HttpMediaDrmCallback(null, dataSourceFactory));
+      }
+    };
+```
+
+
+**Note: This is only required because the content that reproduces the issue with the decoder is clear and could probably happen with encrypted content as well.**
+
+2. Play attached mp4 either by serving it via a local file server or loading it from a local asset in the demo app package.
+
+**Note: Attached asset is originally sourced from a dash stream but has been reduced to just the segments that are causing the issue.**
+
+### Expected result
+
+The asset plays through to the end. 
+
+### Actual result
+
+The asset plays for ~2 seconds before an exception is thrown.
+
+```
+2022-12-13 08:57:45.575 26645-26645/com.google.android.exoplayer2.demo E/EventLogger: playerFailed [eventTime=2.60, mediaPos=1.76, window=0, period=0, errorCode=ERROR_CODE_DRM_SYSTEM_ERROR
+      com.google.android.exoplayer2.ExoPlaybackException: MediaCodecVideoRenderer error, index=0, format=Format(1, null, null, video/avc, avc1.640028, -1, null, [1920, 1080, -1.0], [-1, -1]), format_supported=YES
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:578)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loopOnce(Looper.java:201)
+        at android.os.Looper.loop(Looper.java:288)
+        at android.os.HandlerThread.run(HandlerThread.java:67)
+     Caused by: android.media.MediaCodec$CryptoException: Operation not supported in this configuration
+        at android.media.MediaCodec.native_queueInputBuffer(Native Method)
+        at android.media.MediaCodec.queueInputBuffer(MediaCodec.java:2634)
+        at com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter.queueInputBuffer(SynchronousMediaCodecAdapter.java:147)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.feedInputBuffer(MediaCodecRenderer.java:1369)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:794)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:1001)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:502)
+```
+
+This occurs every-time when ExoPlayer is attempting to  queue the input buffer for PTS 2252250. At this point the samples are at their largest for the video segment. The input buffer queues when this occurs are as follows:
+```
+Queue input: 1000001918583 Index: 0 Size: 173
+Queue input: 1000001960291 Index: 1 Size: 18868
+Queue input: 1000002002000 Index: 2 Size: 46868
+Queue input: 1000002043708 Index: 3 Size: 73567
+Queue input: 1000002085416 Index: 4 Size: 84631
+Queue input: 1000002127125 Index: 5 Size: 153074
+Queue input: 1000002168833 Index: 6 Size: 497048
+Queue input: 1000002210541 Index: 7 Size: 1000746
+Queue input: 1000002252250 Index: 8 Size: 1231366
+```
+
+When this occurs the codec also logs the following warning:
+```
+W/MediaCodec: Log queueSecureInputBuffer error: -2006
+```
+
+From investigation there are 2 changes that workaround the issue:
+1. Set the `MediaFormat.KEY_MAX_INPUT_SIZE` to 2097153 in `MediaCodecVideoRenderer.getMediaFormat`. Anything lower does not work. It's unclear why this is required because the default that ExoPlayer is providing in this scenario is 1566720 which is larger than the buffer that is being input when the exception is thrown. 
+2. Force `MediaCodecAdapter.dequeueInputBufferIndex` to only returns input buffers within index < 3. 
+
+This issue can be produced when using either `AsynchronousMediaCodecAdapter` or `SynchronousMediaCodecAdapter`.
+
+In testing I was also using https://github.com/taehwandev/MediaCodecExample modified to use the `OMX.amlogic.avc.decoder.awesome2.secure` decoder and it does not exhibit the same issue. The issue does not exist when ExoPlayer is using `OMX.amlogic.avc.decoder.awesome2` (unsecure).  
+
+### Media
+
+MP4 is too large to attach, will attach in an email. 
+
+### Bug Report
+
+- [X] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['microkatz'],,1
+10862,Can not play the HLS DAI stream which encrypted by AES-128 (SSAI),open,2022-12-13 08:49:30,2023-03-10 02:40:44,,"I tested this issue on version 2.17.1, no problem. But after updating ExoPlayer to version 2.18.0 or above, then playback cannot start. And the request to the license server is also absent.
+
+Player setup:
+```
+ adsLoader = ImaAdsLoader.Builder(context.applicationContext)
+            .setDebugModeEnabled(BuildConfig.DEBUG)
+            .setAdEventListener { event ->
+                adEventListener?.onAdEvent(event)
+            }
+            .setAdErrorListener { error ->
+                adErrorListener?.onAdError(error)
+            }
+            .setImaSdkSettings(imaSdkSettings).build()
+        val adsMediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory)
+            .setLocalAdInsertionComponents( { adsLoader }, playerView)
+
+// Create a server side ad insertion AdsLoader
+        daiAdsLoader = ImaServerSideAdInsertionMediaSource.AdsLoader.Builder(context, playerView)
+            .setAdEventListener { event ->
+                adEventListener?.onAdEvent(event)
+            }
+            .setAdErrorListener { error ->
+                adErrorListener?.onAdError(error)
+            }
+            .setImaSdkSettings(imaSdkSettings).build()
+        // MediaSource.Factory to create the ad sources for the current player.
+        daiAdsLoader?.let {
+            val daiAdsMediaSourceFactory = ImaServerSideAdInsertionMediaSource.Factory(it, adsMediaSourceFactory)
+            adsMediaSourceFactory.setServerSideAdInsertionMediaSourceFactory(daiAdsMediaSourceFactory)
+        }
+
+        playerBuilder.setMediaSourceFactory(adsMediaSourceFactory)
+```
+createServerSideAdInsertionMediaItemBuilder() method.
+```
+private fun createServerSideAdInsertionMediaItemBuilder(): MediaItem.Builder? {
+         httpDataSourceFactory.setDefaultRequestProperties(requestHeaders)
+
+        // Build an IMA SSAI media item to prepare the player with.
+        val ssaiLiveUri = ImaServerSideAdInsertionUriBuilder()
+            .setAssetKey(assetKey)
+            .setFormat(C.CONTENT_TYPE_HLS)
+            .build()
+
+        // Create the MediaItem to play, specifying the stream URI.
+        return MediaItem.Builder().setUri(ssaiLiveUri)
+    }
+```
+
+We use `requestHeaders` for the request to the license server.
+```
+httpDataSourceFactory.setDefaultRequestProperties(requestHeaders)
+```
+
+Note that, there are no problems on 2.17.1 version
+
+On 2.17.1
+Has request to the license server: https://qaplg02east.keydelivery.japaneast.media.azure.net/?kid=d54fb5c8-513e-4340-a936-a45f818997de
+
+On 2.18.0 or above
+No request to the license server: https://qaplg02east.keydelivery.japaneast.media.azure.net/?kid=d54fb5c8-513e-4340-a936-a45f818997de
+--> So the video or audio fragment can not be downloaded.
+
+There aren't any errors thrown from the ExoPlayer side, but if you look at the event log it looks a bit strange. With a `period [?]`.
+
+Event log:
+```
+EventLogger: timeline [eventTime=156.27, mediaPos=8778.77, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+EventLogger:   period [?]
+EventLogger:   window [8932.92, seekable=true, dynamic=true]
+EventLogger: ]
+```
+
+### ExoPlayer Version
+
+2.18.0 - 2.18.2
+
+### Devices that reproduce the issue
+
+Any devices
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+Play a SSAI content (Play the HLS DAI stream which encrypted by AES-128)
+
+For example: 
+```
+#EXTM3U
+#EXT-X-VERSION:4
+#EXT-X-TARGETDURATION:3
+#EXT-X-MEDIA-SEQUENCE:1
+#EXT-X-DISCONTINUITY-SEQUENCE:0
+#EXT-X-I-FRAMES-ONLY
+
+#EXT-X-KEY:METHOD=AES-128,URI=""https://qaplg02east.keydelivery.japaneast.media.azure.net/?kid=d54fb5c8-513e-4340-a936-a45f818997de"",IV=0X79D4C126D68BB73240DF2B5292ED2EC0
+#EXT-X-PROGRAM-DATE-TIME:2022-12-07T05:31:07Z
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=20020000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=40040000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=60060000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=80080000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+....
+
+```
+
+### Expected result
+
+Can play the HLS DAI stream which encrypted by AES-128 (SSAI) without problems
+
+### Actual result
+
+Can not play the HLS DAI stream which encrypted by AES-128 (SSAI) 
+
+### Media
+
+Play the HLS DAI stream which encrypted by AES-128 (SSAI)
+
+master.m3u8
+```
+#EXTM3U
+#EXT-X-VERSION:4
+
+#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=""audio"",NAME=""comment"",LANGUAGE=""en"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/8397dbf6f5275d2c2e5c2ccb97fc92a6/bandwidth/000.m3u8""
+#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=""audio"",NAME=""no_comment"",LANGUAGE=""en"",DEFAULT=YES,URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/c2fec07d74cff68e829756591de604a2/bandwidth/000.m3u8""
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=416944,RESOLUTION=320x180,CODECS=""avc1.4d400d"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/3b6b972edfa49e18c040c772e9edc3d5/bandwidth/416944.m3u8""
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=621344,RESOLUTION=480x270,CODECS=""avc1.4d4015"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/d9d4e21b01042049647515421f1684bf/bandwidth/621344.m3u8""
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=927911,RESOLUTION=480x270,CODECS=""avc1.4d4015"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/828ae3bf7aa9a12139bd3331cd8338c9/bandwidth/927911.m3u8""
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=1234544,RESOLUTION=640x360,CODECS=""avc1.4d401e"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/40ce50f237f4f35dde8f0e5418c2e9de/bandwidth/1234544.m3u8""
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=2869744,RESOLUTION=960x540,CODECS=""avc1.4d401f"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/c863c4529550391e57a1ba71ac35a889/bandwidth/2869744.m3u8""
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=4300544,RESOLUTION=1280x720,CODECS=""avc1.4d401f"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/e8aa31dfd075656ad17e2c6499a7d595/bandwidth/4300544.m3u8""
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=6344544,RESOLUTION=1920x1080,CODECS=""avc1.4d4028"",URI=""https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/c9fc492e9546140c7246932450685201/bandwidth/6344544.m3u8""
+#EXT-X-STREAM-INF:BANDWIDTH=416944,RESOLUTION=320x180,CODECS=""avc1.4d400d,mp4a.40.2"",AUDIO=""audio""
+https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/2c00fd17a3911cbd27c9328a6f9b94aa/bandwidth/416944.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=621344,RESOLUTION=480x270,CODECS=""avc1.4d4015,mp4a.40.2"",AUDIO=""audio""
+https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/60a211d0900691a31e4804b07974512b/bandwidth/621344.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=927911,RESOLUTION=480x270,CODECS=""avc1.4d4015,mp4a.40.2"",AUDIO=""audio""
+https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/56f05553b386644e973b2edf97691292/bandwidth/927911.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=1234544,RESOLUTION=640x360,CODECS=""avc1.4d401e,mp4a.40.2"",AUDIO=""audio""
+https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/005e8314a59288941742dfec28a99db6/bandwidth/1234544.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=2869744,RESOLUTION=960x540,CODECS=""avc1.4d401f,mp4a.40.2"",AUDIO=""audio""
+https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/5da73a79d09d08bb811051fce3a23954/bandwidth/2869744.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=4300544,RESOLUTION=1280x720,CODECS=""avc1.4d401f,mp4a.40.2"",AUDIO=""audio""
+https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/367d506b8ca0c5c4488322519c241108/bandwidth/4300544.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=6344544,RESOLUTION=1920x1080,CODECS=""avc1.4d4028,mp4a.40.2"",AUDIO=""audio""
+https://dai.google.com/linear/hls/pb/event/JqpG8XXcQGiqyPDrUWAaWw/stream/5c753129-3f43-443e-bf57-25ce555730ff:TPE/variant/6a1085862b9293770cedd59bd6213e29/bandwidth/6344544.m3u8
+
+```
+
+416944.m3u8: 
+```
+#EXTM3U
+#EXT-X-VERSION:4
+#EXT-X-TARGETDURATION:3
+#EXT-X-MEDIA-SEQUENCE:1
+#EXT-X-DISCONTINUITY-SEQUENCE:0
+#EXT-X-I-FRAMES-ONLY
+
+#EXT-X-KEY:METHOD=AES-128,URI=""https://qaplg02east.keydelivery.japaneast.media.azure.net/?kid=d54fb5c8-513e-4340-a936-a45f818997de"",IV=0X79D4C126D68BB73240DF2B5292ED2EC0
+#EXT-X-PROGRAM-DATE-TIME:2022-12-07T05:31:07Z
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=20020000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=40040000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=60060000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+https://qartvnplg-hls02-east.akamaized.net/09bad558-a9ca-44d0-9350-f0655eedd77b/4f9e1815-629d-4797-912d-d08909eb25e6.ism/QualityLevels(200000)/KeyFrames(video=80080000,format=m3u8-aapl,encryption=cbc)
+#EXTINF:2.002000,no-desc
+....
+
+```
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['marcbaechinger'],,7
+10861,Missing CodecPrivate for codec V_MPEG4/ISO/AVC,closed,2022-12-13 04:53:38,2023-03-20 01:05:47,2023-01-18 17:34:18,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Infinix android 11
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+E/ExoPlayerImplInternal: Playback error
+      com.google.android.exoplayer2.ExoPlaybackException: Source error
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:637)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:607)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:268)
+        at android.os.HandlerThread.run(HandlerThread.java:67)
+     **Caused by: com.google.android.exoplayer2.ParserException: Missing CodecPrivate for codec V_MPEG4/ISO/AVC**
+        at com.google.android.exoplayer2.extractor.mkv.MatroskaExtractor$Track.getCodecPrivate(MatroskaExtractor.java:2548)
+        at com.google.android.exoplayer2.extractor.mkv.MatroskaExtractor$Track.initializeOutput(MatroskaExtractor.java:2074)
+        at com.google.android.exoplayer2.extractor.mkv.MatroskaExtractor.endMasterElement(MatroskaExtractor.java:812)
+        at com.google.android.exoplayer2.extractor.mkv.MatroskaExtractor$InnerEbmlProcessor.endMasterElement(MatroskaExtractor.java:1947)
+        at com.google.android.exoplayer2.extractor.mkv.DefaultEbmlReader.read(DefaultEbmlReader.java:88)
+        at com.google.android.exoplayer2.extractor.mkv.MatroskaExtractor.read(MatroskaExtractor.java:512)
+        at com.google.android.exoplayer2.source.BundledExtractorsAdapter.read(BundledExtractorsAdapter.java:127)
+        at com.google.android.exoplayer2.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1039)
+        at com.google.android.exoplayer2.upstream.Loader$LoadTask.run(Loader.java:412)
+
+And here is my code -
+
+
+  player = new ExoPlayer.Builder(Objects.requireNonNull(getActivity())).build();
+        simpleExoPlayerView.setPlayer(player);
+        MediaItem mediaItem = MediaItem.fromUri(videoUri);
+        player.setMediaItem(mediaItem);
+        player.prepare();
+        player.play();
+
+### Expected result
+
+Video will play
+
+### Actual result
+
+Video not playing
+
+### Media
+
+https://cdnmedia-fm.melpapp.com/7a14c9d8-c99a-42d6-8a55-cc02395ee339/0d53@screencapture.webm?sessionid=7zoijdm41s00
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bad media'],['rohitjoins'],,1
+10860,Multiple notification is showing on smartwatch ,open,2022-12-12 14:41:29,2022-12-15 10:53:52,,"Hi,
+
+When I use playerNotificationManager with Exo player for my app, multiple player notification is showing on the smartwatch.
+
+        playerNotificationManager!!.setPlayer(audioBinder?.simpleExoPlayer)
+
+what will be the possible causes for that?
+
+any support is appreciated",['question'],['marcbaechinger'],,0
+10859,Crash android.database.sqlite.SQLiteDatabaseLockedException,closed,2022-12-12 13:31:18,2023-05-09 01:05:24,2023-03-09 11:01:24,"Fatal Exception: android.database.sqlite.SQLiteDatabaseLockedException: database is locked (Sqlite code 5 SQLITE_BUSY), (OS error - 2:No such file or directory)
+       at android.database.sqlite.SQLiteConnection.nativeExecuteForLong(SQLiteConnection.java)
+       at android.database.sqlite.SQLiteConnection.executeForLong(SQLiteConnection.java:735)
+       at android.database.sqlite.SQLiteSession.executeForLong(SQLiteSession.java:674)
+       at android.database.sqlite.SQLiteStatement.simpleQueryForLong(SQLiteStatement.java:109)
+       at android.database.DatabaseUtils.longForQuery(DatabaseUtils.java:935)
+       at android.database.DatabaseUtils.longForQuery(DatabaseUtils.java:923)
+       at android.database.sqlite.SQLiteDatabase.getVersion(SQLiteDatabase.java:1025)
+       at android.database.sqlite.SQLiteOpenHelper.getDatabaseLocked(SQLiteOpenHelper.java:409)
+       at android.database.sqlite.SQLiteOpenHelper.getReadableDatabase(SQLiteOpenHelper.java:356)
+       at com.google.android.exoplayer2.upstream.cache.CachedContentIndex$DatabaseStorage.exists(SourceFile:5)
+       at com.google.android.exoplayer2.upstream.cache.CachedContentIndex.initialize(SourceFile:5)
+       at com.google.android.exoplayer2.upstream.cache.SimpleCache.SimpleCache.initialize(SourceFile:107)
+                                                               access$000
+       at com.google.android.exoplayer2.upstream.cache.SimpleCache$1.run(SourceFile:3)",[],['microkatz'],,6
+10858,Codec failure when playing media multiple times,closed,2022-12-12 11:36:59,2023-02-11 02:05:22,2022-12-12 12:19:48,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+android 8.1
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+```
+ exoPlayer = new ExoPlayer.Builder(itemView.getContext()).build();
+
+            exoPlayerListItems.add(exoPlayer);
+
+
+//                exoPlayer.release();
+
+
+            exoPlayer.addListener(new Player.Listener() {
+                @Override
+                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                    Player.Listener.super.onPlayerStateChanged(playWhenReady, playbackState);
+
+                    if (playbackState == Player.STATE_BUFFERING) {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        playBtn.setVisibility(View.GONE);
+                    } else if (playbackState == Player.STATE_READY) {
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onPlayerError(PlaybackException error) {
+                    Player.Listener.super.onPlayerError(error);
+                    Log.e(""play_error"",""""+error.getMessage().toString()+""""+error.errorCode);
+//                    Toast.makeText(context, ""Can't play this video"", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+                mVideoView.setPlayer(exoPlayer);
+
+            mVideoView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+            mVideoView.setShutterBackgroundColor(Color.TRANSPARENT);
+            exoPlayer.seekTo(0);
+            exoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+
+            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(context);
+// DefaultHttpDataSource.Factory def=new DefaultHttpDataSource.Factory();
+//            mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(Uri.parse(videoItem.videoURL)));
+//
+
+            mediaSource = new ProgressiveMediaSource.Factory(
+                    new CacheDataSource.Factory()
+                            .setCache(SimpleMediaPlayer.getInstance(mContext))
+                            .setUpstreamDataSourceFactory(new DefaultHttpDataSource.Factory()
+                                    .setUserAgent(mContext.getString(R.string.app_name)))
+                            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+            ).createMediaSource(MediaItem.fromUri(videoItem.videoURL));
+
+            exoPlayer.addMediaSource(mediaSource);
+
+            exoPlayer.prepare();
+
+            exoPlayer.setPlayWhenReady(true);
+            exoPlayer.play();
+
+```
+
+### Expected result
+
+video should play without error
+
+### Actual result
+```
+I/MediaCodec: release
+I/MediaCodec: kWhatStop or kWhatRelease
+I/ACodec: initiateShutdown kWhatReleaseCodecInstance
+I/ACodec: mIsVivoLogEnable = 0
+I/OMXClient: Treble IOmx obtained
+I/MediaCodec: release
+I/MediaCodec: kWhatStop or kWhatRelease
+I/ACodec: initiateShutdown kWhatReleaseCodecInstance
+I/MediaCodec: ~MediaCodec
+W/MediaCodecRenderer: Preferred decoder instantiation failed. Sleeping for 50ms then retrying.
+I/MediaCodec: MediaCodec constructor
+D/MediaCodec: MediaCodec CreateByComponentName name:OMX.qcom.video.decoder.avc, pid:-1
+I/ACodec: mIsVivoLogEnable = 0
+I/OMXClient: Treble IOmx obtained
+D/SurfaceUtils: connecting to surface 0x793b53a010, reason connectToSurface
+I/MediaCodec: [OMX.qcom.video.decoder.avc] setting surface generation to 17717251
+D/SurfaceUtils: disconnecting from surface 0x793b53a010, reason connectToSurface(reconnect)
+D/SurfaceUtils: connecting to surface 0x793b53a010, reason connectToSurface(reconnect)
+I/ACodec: [OMX.qcom.video.decoder.avc]configureCodec AMessage(what = 'conf', target = 12) = {
+      int32_t max-height = 1080
+      string mime = ""video/avc""
+      int32_t priority = 0
+      int32_t color-standard = 1
+      Buffer csd-1 = {
+        00000000:  00 00 00 01 28 ee 3c b0                           ....(.<.
+      }
+      int32_t color-transfer = 3
+      int32_t max-width = 1920
+      int32_t width = 1920
+      int32_t color-range = 2
+      float frame-rate = 30.000000
+      int32_t rotation-degrees = 0
+      int32_t max-input-size = 290158
+      int32_t height = 1080
+      Buffer csd-0 = {
+        00000000:  00 00 00 01 27 64 00 28  ac 56 c0 78 02 27 e5 9a  ....'d.(.V.x.'..
+        00000010:  80 80 80 81                                       ....
+      }
+      RefBase *native-window = 0x793b53a000
+    }
+I/ExtendedACodec: setupVideoDecoder()
+E/ACodec: [OMX.qcom.video.decoder.avc] configureCodec returning error -12
+E/ACodec: signalError(omxError 0x80001001, internalError -12)
+E/MediaCodec: Codec reported err 0xfffffff4, actionCode 0, while in state 3
+D/SurfaceUtils: disconnecting from surface 0x793b53a010, reason disconnectFromSurface
+E/MediaCodec: configure failed with err 0xfffffff4, resetting...
+I/MediaCodec: reset
+I/MediaCodec: release
+I/MediaCodec: kWhatStop or kWhatRelease
+I/ACodec: initiateShutdown kWhatReleaseCodecInstance
+I/ACodec: mIsVivoLogEnable = 0
+I/OMXClient: Treble IOmx obtained
+I/MediaCodec: release
+I/MediaCodec: kWhatStop or kWhatRelease
+I/ACodec: initiateShutdown kWhatReleaseCodecInstance
+I/MediaCodec: ~MediaCodec
+W/MediaCodecRenderer: Failed to initialize decoder: OMX.qcom.video.decoder.avc
+      android.media.MediaCodec$CodecException: Error 0xfffffff4
+        at android.media.MediaCodec.native_configure(Native Method)
+        at android.media.MediaCodec.configure(MediaCodec.java:1943)
+        at android.media.MediaCodec.configure(MediaCodec.java:1872)
+        at com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter$Factory.createAdapter(SynchronousMediaCodecAdapter.java:51)
+        at com.google.android.exoplayer2.mediacodec.DefaultMediaCodecAdapterFactory.createAdapter(DefaultMediaCodecAdapterFactory.java:113)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.initCodec(MediaCodecRenderer.java:1108)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecWithFallback(MediaCodecRenderer.java:1019)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecOrBypass(MediaCodecRenderer.java:546)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.onInputFormatChanged(MediaCodecRenderer.java:1450)
+        at com.google.android.exoplayer2.video.MediaCodecVideoRenderer.onInputFormatChanged(MediaCodecVideoRenderer.java:916)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.readSourceOmittingSampleData(MediaCodecRenderer.java:963)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:779)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:994)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:192)
+        at android.os.HandlerThread.run(HandlerThread.java:65)
+E/MediaCodecVideoRenderer: Video codec error
+      com.google.android.exoplayer2.mediacodec.MediaCodecRenderer$DecoderInitializationException: Decoder init failed: OMX.qcom.video.decoder.avc, Format(2, null, null, video/avc, avc1.640028, -1, null, [1920, 1080, 30.0], [-1, -1])
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecWithFallback(MediaCodecRenderer.java:1030)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecOrBypass(MediaCodecRenderer.java:546)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.onInputFormatChanged(MediaCodecRenderer.java:1450)
+        at com.google.android.exoplayer2.video.MediaCodecVideoRenderer.onInputFormatChanged(MediaCodecVideoRenderer.java:916)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.readSourceOmittingSampleData(MediaCodecRenderer.java:963)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:779)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:994)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:192)
+        at android.os.HandlerThread.run(HandlerThread.java:65)
+     Caused by: android.media.MediaCodec$CodecException: Error 0xfffffff4
+        at android.media.MediaCodec.native_configure(Native Method)
+        at android.media.MediaCodec.configure(MediaCodec.java:1943)
+        at android.media.MediaCodec.configure(MediaCodec.java:1872)
+        at com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter$Factory.createAdapter(SynchronousMediaCodecAdapter.java:51)
+        at com.google.android.exoplayer2.mediacodec.DefaultMediaCodecAdapterFactory.createAdapter(DefaultMediaCodecAdapterFactory.java:113)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.initCodec(MediaCodecRenderer.java:1108)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecWithFallback(MediaCodecRenderer.java:1019)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecOrBypass(MediaCodecRenderer.java:546) 
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.onInputFormatChanged(MediaCodecRenderer.java:1450) 
+        at com.google.android.exoplayer2.video.MediaCodecVideoRenderer.onInputFormatChanged(MediaCodecVideoRenderer.java:916) 
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.readSourceOmittingSampleData(MediaCodecRenderer.java:963) 
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:779) 
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:994) 
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495) 
+        at android.os.Handler.dispatchMessage(Handler.java:102) 
+        at android.os.Looper.loop(Looper.java:192) 
+        at android.os.HandlerThread.run(HandlerThread.java:65) 
+E/recyclerPosition: 2
+E/ExoPlayerImplInternal: Playback error
+      com.google.android.exoplayer2.ExoPlaybackException: MediaCodecVideoRenderer error, index=0, format=Format(2, null, null, video/avc, avc1.640028, -1, null, [1920, 1080, 30.0], [-1, -1]), format_supported=YES
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:571)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:192)
+        at android.os.HandlerThread.run(HandlerThread.java:65)
+     Caused by: com.google.android.exoplayer2.mediacodec.MediaCodecRenderer$DecoderInitializationException: Decoder init failed: OMX.qcom.video.decoder.avc, Format(2, null, null, video/avc, avc1.640028, -1, null, [1920, 1080, 30.0], [-1, -1])
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecWithFallback(MediaCodecRenderer.java:1030)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecOrBypass(MediaCodecRenderer.java:546)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.onInputFormatChanged(MediaCodecRenderer.java:1450)
+        at com.google.android.exoplayer2.video.MediaCodecVideoRenderer.onInputFormatChanged(MediaCodecVideoRenderer.java:916)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.readSourceOmittingSampleData(MediaCodecRenderer.java:963)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:779)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:994)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495)
+        at android.os.Handler.dispatchMessage(Handler.java:102) 
+        at android.os.Looper.loop(Looper.java:192) 
+        at android.os.HandlerThread.run(HandlerThread.java:65) 
+     Caused by: android.media.MediaCodec$CodecException: Error 0xfffffff4
+        at android.media.MediaCodec.native_configure(Native Method)
+        at android.media.MediaCodec.configure(MediaCodec.java:1943)
+        at android.media.MediaCodec.configure(MediaCodec.java:1872)
+        at com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter$Factory.createAdapter(SynchronousMediaCodecAdapter.java:51)
+        at com.google.android.exoplayer2.mediacodec.DefaultMediaCodecAdapterFactory.createAdapter(DefaultMediaCodecAdapterFactory.java:113)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.initCodec(MediaCodecRenderer.java:1108)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecWithFallback(MediaCodecRenderer.java:1019)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.maybeInitCodecOrBypass(MediaCodecRenderer.java:546) 
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.onInputFormatChanged(MediaCodecRenderer.java:1450) 
+        at com.google.android.exoplayer2.video.MediaCodecVideoRenderer.onInputFormatChanged(MediaCodecVideoRenderer.java:916) 
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.readSourceOmittingSampleData(MediaCodecRenderer.java:963) 
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:779) 
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:994) 
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495) 
+        at android.os.Handler.dispatchMessage(Handler.java:102) 
+        at android.os.Looper.loop(Looper.java:192) 
+        at android.os.HandlerThread.run(HandlerThread.java:65) 
+E/poDAtta: 0
+I/MediaCodec: flush
+I/ExoPlayerImpl: Release ce14a22 [ExoPlayerLib/2.18.2] [1811, vivo 1811, vivo, 27] [goog.exo.core, goog.exo.database, goog.exo.ui, goog.exo.exoplayer, goog.exo.decoder, goog.exo.datasource, goog.exo.extractor]
+I/MediaCodec: flush
+V/PlayerBase: baseStop() piid=47463
+D/AudioFeatures: PlaybackDetectionCallBack start:android.media.PlayerBase$IPlayerWrapper@638c569
+I/MediaCodec: release
+I/MediaCodec: kWhatStop or kWhatRelease
+I/ACodec: initiateShutdown kWhatReleaseCodecInstance
+V/PlayerBase: baseRelease() piid=47463 state=4
+W/PlayerBase: baseStop state not match:4
+V/AudioTrack: ~AudioTrack, releasing session id 59473 from 17302 on behalf of 17302
+D/SurfaceUtils: disconnecting from surface 0x794f345010, reason disconnectFromSurface
+I/MediaCodec: ~MediaCodec
+I/MediaCodec: release
+I/MediaCodec: kWhatStop or kWhatRelease
+I/ACodec: initiateShutdown kWhatReleaseCodecInstance
+I/MediaCodec: ~MediaCodec
+I/View: updateSystemUiVisibility, blackBackground = false, getVisibility() = 0, getWindowVisibility() = 0, viewBounds = Rect(-755, -1187 - 1476, 68), windowBounds = Rect(0, 56 - 720, 1520), view = TextureView:android.view.TextureView{5a73a04 V.ED..... ........ 0,0-2231,1255}
+E/pos: 1
+E/play_error: MediaCodecVideoRenderer error, index=0, format=Format(2, null, null, video/avc, avc1.640028, -1, null, [1920, 1080, 30.0], [-1, -1]), format_supported=YES4001
+V/FA: Inactivity, disconnecting from the service
+```
+### Media
+
+any video
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['duplicate', 'wont fix: app issue']",['marcbaechinger'],,4
+10857,notification using playerNotificationManager not showing playback controls in android 13,closed,2022-12-12 05:09:46,2023-02-12 02:05:05,2022-12-13 04:59:15,"Hi,
+
+I have compiled the same code in android 9 & 13
+the playback controls is shown in android 9 notification but not in android 13. not sure if this is a behavioural things between the android versions but how can i have the same controls in all versions.
+
+I tried also to set it manually without success e.g.
+```
+playerNotificationManager.setUseFastForwardAction(true);
+playerNotificationManager.setUseFastForwardActionInCompactView(true);
+playerNotificationManager.setUseRewindAction(true);
+playerNotificationManager.setUseRewindActionInCompactView(true);
+```
+
+also i have CustomActionReceiver that is not shown as well
+
+any support is appreciated
+","['question', 'documentation candidate']",['marcbaechinger'],,2
+10856,Can not play video without RendersFactory,closed,2022-12-12 03:28:19,2023-02-11 02:05:23,2022-12-12 09:23:24,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+All
+
+### Devices that do not reproduce the issue
+
+none
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+exoPlayer = new ExoPlayer.Builder(holder.mVideoView.getContext(),rf).setLoadControl(loadControl).build();
+
+rf if defaultRendersFactory.I am releasing and initialising player correctly.
+
+when I does not pass rf then video fetch decoder failed error for 3k video.
+I want to remove rf because it rotates some videos sometimes.
+
+### Expected result
+
+All resolution videos should play.
+
+### Actual result
+
+decoder initialisation failed.
+
+### Media
+
+Any 3k or 4k video
+
+
+please help.Its very urgent need to fix.
+please please please
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['wont fix: app issue'],['marcbaechinger'],,0
+10855,MPEG-TS video gives a black screen when using ffmpeg mp3 extension,closed,2022-12-11 01:11:06,2023-03-20 01:05:48,2023-01-18 16:34:41,"Unfortunately we can't answer all questions. Unclear questions or questions with
+insufficient information may not get attention.
+
+Before filing a question:
+-------------------------
+
+- Ask general Android development questions on Stack Overflow
+- Search existing issues, including issues that are closed
+  https://github.com/google/ExoPlayer/issues?q=is%3Aissue
+- Consult our developer website (https://exoplayer.dev/) and Javadoc
+  (https://exoplayer.dev/doc/reference/)
+
+When filing a question:
+-------------------------
+
+Describe your question in detail.
+
+In case your question refers to a problem you are seeing in your app:
+
+- Output of running `$ adb bugreport` in the console
+
+In case your question is related to a piece of media:
+
+- URI to test content
+- For protected content:
+  - DRM scheme and license server URL
+  - Authentication HTTP headers
+
+Don't forget to check supported formats and devices
+(https://exoplayer.dev/supported-formats.html).
+
+If there's something you don't want to post publicly, please submit the issue,
+then email the link/bug report to dev.exoplayer@gmail.com using a subject in the
+format ""Issue #1234"", where #1234 is your issue number (we don't reply to
+emails).
+
+I am using 2.18.2 of Exoplayer. I have been using ffmpeg mp3 extension in my app with no problem for the m3u8 streaming. I 
+recompiled the ffmpeg mp3 extension for  2.18.2 ExoPlayer.  Since I don't have a m3u8 stream for testing, I've downloaded a Mpeg TS video for testing. Without the ffmpeg mp3 extension, the video play with no sound. But with the ffmpeg mp3 extension is on, I just get a black screen. The Eventlogger shows the the use of ffmpeg mp3 extension. Also there is a loading event that shows mediaPos has a negative value which could be the cause of the problem.  I also used the demo app with the same result.
+When I use VLC or MX Player, the video plays fine. 
+It could be the video issue or something I missed. I also found issue #10035 which seems to be related to my issue. 
+I will send in the video  for your analysis. Thanks for your help.",['question'],['microkatz'],,3
+10854,Media3 migration script is not updated to support 2.18.2,closed,2022-12-10 02:02:06,2023-03-07 02:06:39,2023-01-05 16:55:20,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+N/A
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+1. Run command: ./media3-migration.sh -m /path/to/gradle/project/root
+2. Command fails
+
+### Expected result
+
+Version 2.18.2 should be supported by the migration script.
+
+### Actual result
+
+$ ./media3-migration.sh -m .
+=============================================
+Validation errors (use -f to force execution)
+---------------------------------------------
+[1] -> The version does not match '2.18.1'. Update to '2.18.1' or use the migration script matching your current version. Current version '2.18.2' found in
+    ./app/build.gradle
+
+
+### Media
+
+N/A
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['marcbaechinger'],,3
+10853,Buffer run out time ,closed,2022-12-09 03:51:11,2023-03-10 02:06:06,2023-01-09 02:04:34,"Since i have experience buffer run out when do player.repeatMode = Player.REPEAT_MODE_ALL or looping it.
+
+So to stop this issue, i try to use like this :
+```
+player.repeatMode = Player.REPEAT_MODE_OFF
+```
+
+and inside function onPlayerStateChanged
+```
+on Player.STATE_ENDED -> {
+       player.seekTo(0)
+       player.playWhenReady = true
+}
+```
+
+so the question is that,  does function inherit from 
+```
+exoplayer2.analytics.AnalyticsListener.onTracksChanged(
+
+        eventTime: AnalyticsListener.EventTime,
+        trackGroups: TrackGroupArray,
+        trackSelections: TrackSelectionArray
+)  
+```
+will call again after do replay the movie?
+
+Thanks, any good comment I really appreciated.","['question', 'closed-by-bot']",['marcbaechinger'],,3
+10852,Always start hls with first playlist in master playlist even if it iframes playlist,open,2022-12-08 10:18:25,2023-02-10 10:44:03,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+all devices
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Start playback with first iframes playlist in master playlist
+
+### Expected result
+
+Start download non iframes playlist
+
+### Actual result
+
+Start download iframes playlist
+
+### Media
+
+Master playlist example
+#EXTM3U
+#EXT-X-VERSION:5
+
+#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=10000000,URI=""iframes/iframes.m3u8""
+
+#EXT-X-STREAM-INF:BANDWIDTH=10000000,PROGRAM-ID=1
+frames/playlist.m3u8
+
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['tianyif'],,3
+10851, Player Error  Unexpected runtime error,closed,2022-12-08 09:40:02,2023-03-10 02:06:07,2023-01-09 02:04:38,"Unfortunately we can't answer all questions. Unclear questions or questions with
+insufficient information may not get attention.
+
+Before filing a question:
+-------------------------
+
+- Ask general Android development questions on Stack Overflow
+- Search existing issues, including issues that are closed
+  https://github.com/google/ExoPlayer/issues?q=is%3Aissue
+- Consult our developer website (https://exoplayer.dev/) and Javadoc
+  (https://exoplayer.dev/doc/reference/)
+
+When filing a question:
+-------------------------
+
+Describe your question in detail.
+
+In case your question refers to a problem you are seeing in your app:
+
+- Output of running `$ adb bugreport` in the console
+
+In case your question is related to a piece of media:
+
+- URI to test content
+- For protected content:
+  - DRM scheme and license server URL
+  - Authentication HTTP headers
+
+Don't forget to check supported formats and devices
+(https://exoplayer.dev/supported-formats.html).
+
+If there's something you don't want to post publicly, please submit the issue,
+then email the link/bug report to dev.exoplayer@gmail.com using a subject in the
+format ""Issue #1234"", where #1234 is your issue number (we don't reply to
+emails).
+","['question', 'closed-by-bot']",['christosts'],,4
+10850,infinite buffering after changing track of video,open,2022-12-08 07:31:39,2023-05-16 06:38:51,,"### ExoPlayer Version
+
+2.18.2
+2.18.1
+
+### Devices that reproduce the issue
+* Samsung Galaxy Z Flip3 Android 12
+* Samsung Galaxy S20 Ultra Android 12
+* I tried most Galaxy models, those happens all
+
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+1. play with _**long dash contents**_ with fragmented mp4(I will email the media file)
+2. change track of video when first ready state like below
+ 
+<img width=""860"" alt=""스크린샷 2022-12-08 오후 4 28 09"" src=""https://user-images.githubusercontent.com/7637498/206385293-9d282854-fcb8-492d-8e00-23103b5f51e0.png"">
+
+
+### Expected result
+
+I should change ready state again. 
+
+### Actual result
+
+playback stay buffering state.
+I attached logs of `EventLogger`.
+
+[exo_log.txt](https://github.com/google/ExoPlayer/files/10183094/exo_log.txt)
+
+### Media
+
+Files are pretty big and I will share it by email.
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['marcbaechinger'],,5
+10849,crash in release build with R8,open,2022-12-07 18:45:22,2022-12-09 20:21:36,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+not applicable
+
+### Devices that do not reproduce the issue
+
+not applicable
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+./gradlew assembleRelease
+
+### Expected result
+
+build completes
+
+### Actual result
+
+Build fails with R8 issue:
+
+```
+> Task :app:minifyReleaseWithR8 FAILED
+ERROR:/Users/xxx/.gradle/caches/transforms-3/397cdea19495290eb031a5de22324959/transformed/firebase-crashlytics-18.3.2-runtime.jar: R8: java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 20
+
+FAILURE: Build completed with 2 failures.
+
+1: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':app:minifyReleaseWithR8'.
+> A failure occurred while executing com.android.build.gradle.internal.tasks.R8Task$R8Runnable
+   > Compilation failed to complete, position: Lcom/google/firebase/crashlytics/internal/model/AutoValue_CrashlyticsReport_Session_Event$1;SmartWorkoutVideoPreviewScreen(Lcom/xxx/sensors/ui/smartworkout/video_preview/SmartWorkoutVideoPreviewState;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V, origin: /Users/xxx/.gradle/caches/transforms-3/397cdea19495290eb031a5de22324959/transformed/firebase-crashlytics-18.3.2-runtime.jar:com/google/firebase/crashlytics/internal/model/AutoValue_CrashlyticsReport_Session_Event$1.class
+```
+
+
+### Media
+
+not applicable
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['wont fix: infeasible'],['marcbaechinger'],,3
+10848,Audio track is not detected in m3u8 stream with setAllowChunklessPreparation set to true,closed,2022-12-07 17:07:49,2023-03-28 01:06:16,2023-01-26 14:40:22,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Chromecast Android 12
+Sony Android TV Android 10
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Play m3u8 source with video and audio tracks
+
+### Expected result
+
+Audio track should be detected and reproduced
+
+### Actual result
+
+Audio track is not detected. This started happening from version 2.17.0. Worked fine since 1.*.* versions of ExoPlayer.
+
+Maybe it would be reasonable to default the setAllowChunklessPreparation parameter to false, because it seems that you would have to manually override the settings just to avoid having issue with audio track not being detected?
+
+### Media
+
+Private m3u8 internals:
+
+```
+#EXTM3U
+#EXT-X-STREAM-INF:AVERAGE-BANDWIDTH=9990000,BANDWIDTH=12490000,RESOLUTION=1920x1080,FRAME-RATE=25.000,CODECS=""avc1.640028"",CLOSED-CAPTIONS=NONE
+tracks-v1a1/mono.m3u8?token=***-***
+```
+
+With **setAllowChunklessPreparation** set to **true**:
+
+```
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D  tracks [eventTime=0.48, mediaPos=0.00, window=0, period=0
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D    group [
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D      [X] Track:0, id=0, mimeType=video/avc, bitrate=13640000, codecs=avc1.640028, res=1920x1080, fps=25.0, supported=YES
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D    ]
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D    group [
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D      [X] Track:0, id=ID3, mimeType=application/id3, supported=YES
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D    ]
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D    Metadata [
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D      HlsTrackMetadataEntry
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D    ]
+2022-12-07 17:57:53.051 21131-21131 EventLogger             com.google.android.exoplayer2.demo   D  ]
+```
+
+With **setAllowChunklessPreparation** set to **false**:
+
+```
+2022-12-07 17:58:56.507 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D  tracks [eventTime=0.75, mediaPos=0.00, window=0, period=0
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    group [
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D      [X] Track:0, id=0, mimeType=video/avc, bitrate=11290000, codecs=avc1.640028, res=1920x1080, fps=25.0, supported=YES
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    ]
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    group [
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D      [X] Track:0, id=2204/221, mimeType=audio/mpeg-L2, channels=2, sample_rate=48000, language=ru, supported=YES
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    ]
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    group [
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D      [X] Track:0, id=null, mimeType=application/id3, supported=YES
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    ]
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    Metadata [
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D      HlsTrackMetadataEntry
+2022-12-07 17:58:56.508 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D    ]
+2022-12-07 17:58:56.509 21528-21528 EventLogger             com.google.android.exoplayer2.demo   D  ]
+```
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['wont fix: intended behavior'],['tonihei'],,1
+10847,IllegalStateException when drainToEndOfStream when in tunneling mode,closed,2022-12-07 12:56:13,2023-03-28 01:06:17,2023-01-26 14:40:12,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Model: TalkTalk STB
+Os: Android
+Version: 10
+
+### Devices that do not reproduce the issue
+
+Fire TV Stick (2nd Gen) running Fire OS 5.2.9.2 (Tunneling was not enabled for this media, tried other media with tunneling enabled but the issue was not present)
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Turn on tunneling ie in PlayerActivity:
+
+```
+      trackSelectionParameters =
+          new DefaultTrackSelector.ParametersBuilder(/* context= */ this)
+              .setTunnelingEnabled(true)
+              .build();
+```
+
+As our media is over http you will need to allow clear text, so in an xml file in res/xml:
+
+```
+<network-security-config>
+  <base-config cleartextTrafficPermitted=""true""/>
+</network-security-config>
+```
+ And in the android manifest of the demo app <application> tag:
+```
+    android:networkSecurityConfig=""@xml/network_config""
+```
+
+Play the video to the end, where the crash should occur.
+
+### Expected result
+
+The audio sink should be released successfully
+
+### Actual result
+
+The following exception is thown:
+
+```
+playerFailed [eventTime=33.10, mediaPos=29.47, window=0, period=0, errorCode=ERROR_CODE_FAILED_RUNTIME_CHECK
+  com.google.android.exoplayer2.ExoPlaybackException: Unexpected runtime error
+      at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:621)
+      at android.os.Handler.dispatchMessage(Handler.java:103)
+      at android.os.Looper.loop(Looper.java:214)
+      at android.os.HandlerThread.run(HandlerThread.java:67)
+  Caused by: java.lang.IllegalStateException
+      at com.google.android.exoplayer2.util.Assertions.checkState(Assertions.java:84)
+      at com.google.android.exoplayer2.audio.DefaultAudioSink.writeBuffer(DefaultAudioSink.java:1159)
+      at com.google.android.exoplayer2.audio.DefaultAudioSink.processBuffers(DefaultAudioSink.java:1099)
+      at com.google.android.exoplayer2.audio.DefaultAudioSink.drainToEndOfStream(DefaultAudioSink.java:1259)
+      at com.google.android.exoplayer2.audio.DefaultAudioSink.handleBuffer(DefaultAudioSink.java:893)
+      at com.google.android.exoplayer2.audio.MediaCodecAudioRenderer.processOutputBuffer(MediaCodecAudioRenderer.java:706)
+      at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.drainOutputBuffer(MediaCodecRenderer.java:1905)
+      at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:792)
+      at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:994)
+      at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495)
+      at android.os.Handler.dispatchMessage(Handler.java:103) 
+      at android.os.Looper.loop(Looper.java:214) 
+      at android.os.HandlerThread.run(HandlerThread.java:67) 
+]
+```
+
+### Media
+
+Media Url is sent via email
+
+### Bug Report
+
+- [X] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['tonihei'],,7
+10846,Dolby Vision Profile 7 FEL doesn't Trigger on TCL C825,open,2022-12-07 11:50:15,2023-03-25 17:31:54,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+TV TCL C825 (mt9615 (arm cortex-a73))
+Last Firmware  : V474 
+build date= Nov 23 2022
+build= 1669174746
+security_patch= 2022-06-05
+gmsversion= Android_11_GTV
+
+### Devices that do not reproduce the issue
+
+Same TV TCL C825 with Nvidia Shield PRO running the media
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+Run a Dolby Vision Profile 7 FEL mkv file using the last Just Player app with Exoplayer 2.18.2
+
+### Expected result
+
+The media should trigger DOLBYVISION
+
+### Actual result
+
+The media only trigger HDR10
+
+### Media
+
+Media with  Dolby Vision Profile 7 FEL in mkv
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['microkatz'],,14
+10845,Exoplayer is using 3.28.1 version from IMA which has crash.,closed,2022-12-07 11:13:54,2023-04-08 01:05:06,2023-02-06 15:36:17,"Exoplayer is using 3.28.1 version from IMA.
+https://developers.google.com/interactive-media-ads/docs/sdks/android/client-side/history
+
+Please refer to the document above. 
+This version has issues with crashes on Android v27 and lower.
+
+Can we please upgrade that?",['enhancement'],['marcbaechinger'],,7
+10844,"If you pause after 8 seconds before the end of the video, only the audio will continue to play.",open,2022-12-07 08:31:06,2022-12-22 01:55:17,,"As the title suggests, I am puzzled by the phenomenon that when the video is paused in the last 8 seconds of the video, the video stops, but the audio continues to play.
+
+This is caused by using the following function and setting the parameter to True
+
+```
+DefaultRenderersFactory(context).setEnableAudioTrackPlaybackParams(true)
+```
+Will not occur if `setEnableAudioTrackPlaybackParams` is given false
+
+I want to avoid `settingEnableAudioTrackPlaybackParams` to false because it slows down the playback speed switching.
+
+Is there any way to keep `setEnableAudioTrackPlaybackParams` true and still have the audio stop playing correctly?
+
+I have followed the behavior and I think the problem is that `audioTrack.pause()` is not called in the following implementation
+file:DefaultAudioSink.java
+```
+ @Override
+ public void pause() {
+    playing = false;
+    if (isAudioTrackInitialized() && audioTrackPositionTracker.pause()) {
+      audioTrack.pause();
+    }
+ }
+```
+`audioTrackPositionTracker.pause` returns false
+
+I apologize if I offended you because I use a translation website.
+",['bug'],['tonihei'],,4
+10843,Black Screen at times followed by BufferQueue has been abandoned when trying to release,open,2022-12-07 04:32:44,2023-01-25 07:09:09,,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+TX3mini+
+TV box
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Unable to reproduce consistently
+
+
+
+
+### Expected result
+
+There is an high possibility that this is an device specific issue, but I would like Exoplayer to throw an error when the SurfaceView is not blit with any data, instead of getting stuck indefinitely without reaching Player.STATE_ENDED
+
+### Actual result
+
+At times an normally working video will not blit anything on the surfaceview after STATE_READY state.
+
+Also I am getting the following error when trying to release player
+
+```
+12-06 19:42:41.992 19441 19441 I ExoPlayerImpl: Release b8d8dd [ExoPlayerLib/2.18.1] [p281, TX3mini+, Google, 30] [goog.exo.core, goog.exo.ui, goog.exo.exoplayer, goog.exo.decoder, goog.exo.datasource, goog.exo.extractor]
+
+12-06 19:42:44.008 19441 28661 E BufferQueueProducer: [SurfaceTexture-0-19441-118](id:4bf1000000ef,api:3,p:19441,c:19441) dequeueBuffer: BufferQueue has been abandoned
+
+12-06 19:42:44.008 19441 28661 E ACodec  : dequeueBuffer failed: NO_INIT(-19).
+
+12-06 19:42:44.011 19441 28657 D CCodecBuffers: [c2.android.aac.decoder#219:1D-Output.Impl[N]] Client returned a buffer it does not own according to our record: 0
+
+12-06 19:42:44.011 19441 28657 D CCodecBuffers: [c2.android.aac.decoder#219:1D-Output.Impl[N]] Client returned a buffer it does not own according to our record: 1
+
+12-06 19:42:44.011 19441 28657 D CCodecBuffers: [c2.android.aac.decoder#219:1D-Output.Impl[N]] Client returned a buffer it does not own according to our record: 2
+
+12-06 19:42:44.011 19441 28657 D CCodecBuffers: [c2.android.aac.decoder#219:1D-Output.Impl[N]] Client returned a buffer it does not own according to our record: 3
+```
+
+### Media
+
+
+https://user-images.githubusercontent.com/1427017/206360721-b8153684-0bbb-4794-817d-d3d456d0d100.mp4
+
+
+
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['christosts'],,11
+10842,Searched too many bytes.,open,2022-12-07 03:42:09,2022-12-08 05:40:25,,"There's a mp3 file.  it will always throw this error.  By debug and find it has to do with the mp3's frame bytes stream, it reaches more than 171888 bytes(with value: 00) after a valid frame, however exo player detects the head with a max limitation ""128kb"" 131072 bytes, so it will be fail. 
+
+Question:
+ i wanna know whether can adjust the MAX limitation ""MAX_SYNC_BYTES"" to ""256kb""???
+
+  /** The maximum number of bytes to search when synchronizing, before giving up. */
+  private static final int MAX_SYNC_BYTES = 128 * 1024;","['question', 'needs triage']",['marcbaechinger'],,2
+10841,[TEST] Changes to test Dolby Vision black screen issue.,closed,2022-12-06 16:01:09,2023-04-25 01:05:49,2023-02-23 12:54:55,,[],['microkatz'],,2
+10840,"Crash because SDP line ""i=""",closed,2022-12-06 14:05:52,2023-02-18 02:05:14,2022-12-19 13:56:14,"I'm playing around with my IP camera (rtsp) from home, and I tried to connect to it via exo player, but I'm getting this crash:
+
+```
+com.google.android.exoplayer2.ParserException: Malformed SDP line: i=
+```
+
+SDP:
+```
+0 = ""v=0""
+1 = ""o=- 1670325177056949 1 IN IP4 <IP>""
+2 = ""s=Session streamed by ""preview""""
+3 = ""i=""
+4 = ""t=0 0""
+5 = ""a=tool:LIVE555 Streaming Media v2020.08.12""
+6 = ""a=type:broadcast""
+7 = ""a=control:*""
+8 = ""a=range:npt=0-""
+9 = ""a=x-qt-text-nam:Session streamed by ""preview""""
+10 = ""a=x-qt-text-inf:""
+11 = ""m=video 0 RTP/AVP 96""
+12 = ""c=IN IP4 0.0.0.0""
+13 = ""b=AS:500""
+14 = ""a=rtpmap:96 H265/90000""
+15 = ""a=fmtp:96 profile-space=0;profile-id=1;tier-flag=0;level-id=150;interop-constraints=000000000000;sprop-vps=QAEMAf//AWAAAAMAAAMAAAMAAAMAlqwJ;sprop-sps=QgEBAWAAAAMAAAMAAAMAAAMAlqAB4CACHH+KrTuiS7I=;sprop-pps=RAHAcvCJBAcONkg=""
+16 = ""a=control:track1""
+17 = ""m=audio 0 RTP/AVP 97""
+18 = ""c=IN IP4 0.0.0.0""
+19 = ""b=AS:256""
+20 = ""a=rtpmap:97 MPEG4-GENERIC/16000""
+21 = ""a=fmtp:97 streamtype=5;profile-level-id=1;mode=AAC-hbr;sizelength=13;indexlength=3;indexdeltalength=3;config=1408""
+22 = ""a=control:track2""
+```
+
+Reading this -> https://www.rfc-editor.org/rfc/rfc4566#section-5.4
+```
+The ""i="" field is intended to provide a free-form human-readable
+   description of the session or the purpose of a media stream.  It is
+   not suitable for parsing by automata.
+```
+
+So why I cannot stream a URL that has this param empty? Since it's just for info purposes.",['question'],['claincly'],,1
+10839,Can I override ExoPlayer's Notification action buttons?,open,2022-12-06 14:04:28,2022-12-06 19:18:52,,"I would like to override notification's action buttons in order to track some analytics.
+
+For example, when user plays or pauses an audio track via the notification, I would like to put some logs and save some information on my application's database.
+
+Is this possible?
+
+I am currently using 2.14.2 ExoPlayer version.
+
+Thank you in advance
+",['question'],['marcbaechinger'],,1
+10838,Unexpected exception handling load completed - java.lang.IndexOutOfBoundsException during Player re-prepare,closed,2022-12-06 11:09:51,2023-08-14 01:04:57,2023-06-14 21:24:10,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+Samsung Galaxy M31 
+OS Version  12
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+1)Play the Live content with SSAI enabled/multi-period and pause the playback 
+2) Resume the playback after few minutes(to say 8 mins or more).
+
+
+### Expected result
+
+playback should recover from behindlivewindowexception and continues to play from the nearliveedge
+
+### Actual result
+
+**Exception During playback**
+
+```
+LoadTask: Unexpected exception handling load completed
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:   java.lang.IndexOutOfBoundsException: Index: 3, Size: 1
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at java.util.ArrayList.get(ArrayList.java:437)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.dash.manifest.DashManifest.getPeriod(DashManifest.java:126)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.dash.DashMediaSource.createPeriod(DashMediaSource.java:465)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.MaskingMediaPeriod.createPeriod(MaskingMediaPeriod.java:128)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.MaskingMediaSource.onChildSourceInfoRefreshed(MaskingMediaSource.java:203)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.MaskingMediaSource.onChildSourceInfoRefreshed(MaskingMediaSource.java:38)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.CompositeMediaSource.lambda$prepareChildSource$0$CompositeMediaSource(CompositeMediaSource.java:115)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.-$$Lambda$CompositeMediaSource$lU5TDdLYJk4FzgCLkUChati_nlA.onSourceInfoRefreshed(Unknown Source:4)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.BaseMediaSource.refreshSourceInfo(BaseMediaSource.java:88)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.dash.DashMediaSource.processManifest(DashMediaSource.java:847)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.dash.DashMediaSource.onUtcTimestampResolved(DashMediaSource.java:774)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.dash.DashMediaSource.onUtcTimestampLoadCompleted(DashMediaSource.java:676)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.dash.DashMediaSource$UtcTimestampCallback.onLoadCompleted(DashMediaSource.java:1330)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.source.dash.DashMediaSource$UtcTimestampCallback.onLoadCompleted(DashMediaSource.java:1325)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at com.google.android.exoplayer2.upstream.Loader$LoadTask.handleMessage(Loader.java:478)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at android.os.Handler.dispatchMessage(Handler.java:106)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at android.os.Looper.loopOnce(Looper.java:226)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at android.os.Looper.loop(Looper.java:313)
+12-05 17:20:59.206 10829 29189 20310 E LoadTask:       at android.os.HandlerThread.run(HandlerThread.java:67)
+```
+
+### Media
+
+Not Applicable
+
+### Bug Report
+
+- [X] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['marcbaechinger'],,3
+10837,HDR support on ExoPlayer with DASH Live stream,closed,2022-12-06 10:19:53,2023-05-01 01:05:18,2023-03-01 02:06:14,"Unfortunately we can't answer all questions. Unclear questions or questions with
+insufficient information may not get attention.
+
+Before filing a question:
+-------------------------
+
+- Ask general Android development questions on Stack Overflow
+- Search existing issues, including issues that are closed
+  https://github.com/google/ExoPlayer/issues?q=is%3Aissue
+- Consult our developer website (https://exoplayer.dev/) and Javadoc
+  (https://exoplayer.dev/doc/reference/)
+
+When filing a question:
+-------------------------
+
+Describe your question in detail.
+
+In case your question refers to a problem you are seeing in your app:
+
+- Output of running `$ adb bugreport` in the console
+
+In case your question is related to a piece of media:
+
+- URI to test content
+- For protected content:
+  - DRM scheme and license server URL
+  - Authentication HTTP headers
+
+Don't forget to check supported formats and devices
+(https://exoplayer.dev/supported-formats.html).
+
+If there's something you don't want to post publicly, please submit the issue,
+then email the link/bug report to dev.exoplayer@gmail.com using a subject in the
+format ""Issue #1234"", where #1234 is your issue number (we don't reply to
+emails).
+","['question', 'closed-by-bot']",['christosts'],,23
+10836,hi,closed,2022-12-06 10:18:21,2023-02-05 02:05:21,2022-12-06 10:19:28,"Unfortunately we can't answer all questions. Unclear questions or questions with
+insufficient information may not get attention.
+
+Before filing a question:
+-------------------------
+
+- Ask general Android development questions on Stack Overflow
+- Search existing issues, including issues that are closed
+  https://github.com/google/ExoPlayer/issues?q=is%3Aissue
+- Consult our developer website (https://exoplayer.dev/) and Javadoc
+  (https://exoplayer.dev/doc/reference/)
+
+When filing a question:
+-------------------------
+
+Describe your question in detail.
+
+In case your question refers to a problem you are seeing in your app:
+
+- Output of running `$ adb bugreport` in the console
+
+In case your question is related to a piece of media:
+
+- URI to test content
+- For protected content:
+  - DRM scheme and license server URL
+  - Authentication HTTP headers
+
+Don't forget to check supported formats and devices
+(https://exoplayer.dev/supported-formats.html).
+
+If there's something you don't want to post publicly, please submit the issue,
+then email the link/bug report to dev.exoplayer@gmail.com using a subject in the
+format ""Issue #1234"", where #1234 is your issue number (we don't reply to
+emails).
+","['question', 'needs triage']",[],,1
+10835,Play videos with 90 degree rotation,open,2022-12-06 06:15:08,2023-03-23 12:44:32,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+I tested on android 8.1
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+
+EDIT copied from title by @marcbachinger:
+""I set playerview.setRotation and i recorded video using native camera in portrait mode so its rotation degree is 90.Then I play in exoplayer it plays correctly in portrait mode again I play same video it rotates automatically.I set portrait in manifest for same activity.vide""
+
+Any native camera recorded video
+Exoplayer does not rotate but video does when scroll up and down multiple times in viewpager.
+
+```
+  DefaultRenderersFactory rf = new DefaultRenderersFactory(mContext)
+                .setExtensionRendererMode(EXTENSION_RENDERER_MODE_PREFER).setMediaCodecSelector(
+                        new MediaCodecSelector() {
+                            @Override
+                            public List<MediaCodecInfo> getDecoderInfos(String mimeType,
+                                                                        boolean requiresSecureDecoder, boolean requiresTunnelingDecoder)
+                                    throws MediaCodecUtil.DecoderQueryException {
+                                List<MediaCodecInfo> decoderInfos = MediaCodecSelector.DEFAULT
+                                        .getDecoderInfos(mimeType, requiresSecureDecoder, requiresTunnelingDecoder);
+                                if (MimeTypes.VIDEO_H264.equals(mimeType)) {
+                                    // copy the list because MediaCodecSelector.DEFAULT returns an unmodifiable list
+                                    decoderInfos = new ArrayList<>(decoderInfos);
+                                    Collections.reverse(decoderInfos);
+                                }
+                                return decoderInfos;
+                            }
+                        });
+
+
+
+exoPlayer = new ExoPlayer.Builder(holder.mVideoView.getContext(),rf).setLoadControl(loadControl).build();
+
+holder.mVideoView.setPlayer(exoPlayer);
+holder.mVideoView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+holder.mVideoView.setShutterBackgroundColor(Color.TRANSPARENT);
+holder.mVideoView.setKeepContentOnPlayerReset(true);
+exoPlayer.seekTo(0);
+exoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+
+ mediaSource = new ProgressiveMediaSource.Factory(
+        new CacheDataSource.Factory()
+                .setCache(SimpleMediaPlayer.getInstance(mContext))
+                .setUpstreamDataSourceFactory(new DefaultHttpDataSource.Factory()
+                        .setUserAgent(mContext.getString(R.string.app_name)))
+                .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+).createMediaSource(MediaItem.fromUri(videoItem.videoURL));
+
+exoPlayer.addMediaSource(mediaSource);
+
+exoPlayer.prepare();
+
+exoPlayer.setPlayWhenReady(true);
+exoPlayer.play();
+```
+
+### Expected result
+
+All videos should play in portrait.
+
+### Actual result
+
+video sideways
+
+### Media
+
+Any native camera recorded video
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug: device specific'],['marcbaechinger'],,22
+10834,SimplePool for Exoplayer,closed,2022-12-05 15:56:40,2023-03-18 01:05:16,2023-01-16 14:34:18,"Describe your question in detail:
+
+Hello, my application use extensively Exoplayer and I wanted to make some improvement for my users ( ~440 000 users with phone from API 21 to API 26).
+
+For context my app is just like Youtube, so users browse between pages which result in an ever-ending cycle of:
+1. creating Exoplayer
+2. setting mediaSource + listeners
+3. playing/pausing
+4. removing listener + releasing Exoplayer
+
+I was wondering if creating/releasing player is more resource-consuming than creating a Pool with 2 instances of Exoplayer? What's your opinion about using a `SimplePool<Exoplayer>(2)` ?
+",['question'],['marcbaechinger'],,5
+10833,Upgrade to version 2.18.2,closed,2022-12-05 12:51:18,2023-03-04 02:05:43,2023-01-03 02:04:28,"ExoPlayer  : Version 2.18.2
+
+Android Version : Android 12
+
+Bug 
+
+Duplicate class com.google.common.primitives.UnsignedBytes found in modules jetified-guava-31.0.1-android (com.google.guava:guava:31.0.1-android) and jetified-guava-primitives-r03 (com.google.guava:guava-primitives:r03)
+Duplicate class com.google.common.primitives.package-info found in modules jetified-guava-31.0.1-android (com.google.guava:guava:31.0.1-android) and jetified-guava-primitives-r03 (com.google.guava:guava-primitives:r03)",['closed-by-bot'],['icbaker'],,3
+10832,Caused by android.view.InflateException Binary XML file line #45 exo_player_control_view: Error inflating class ImageButton,closed,2022-12-05 11:04:32,2023-02-04 02:05:22,2022-12-05 14:50:15,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Devices that getting crash according to firebase statistics
+
+![Screenshot 2022-12-05 at 3 46 10 PM](https://user-images.githubusercontent.com/106583709/205618637-8f5d9b46-7afd-4b3b-ade9-82e160da0234.png)
+
+
+
+### Devices that do not reproduce the issue
+
+Pixel 2
+Pixel 3 
+Vivo 1933
+Opp A54
+
+### Reproducible in the demo app?
+
+No
+
+### Reproduction steps
+
+Hello,
+
+We are unable to reproduce the issue but we are getting too much crashes in firebase crashlytics. 
+
+### Expected result
+
+Video should be played properly like other devices playing the video.
+
+### Actual result
+
+Here is all crash statistics every user getting crash like this. I just hide the package id for security reason so please ignore red mark point in below screenshot.
+
+![Screenshot 2022-12-05 at 3 49 24 PM](https://user-images.githubusercontent.com/106583709/205621087-eeda8917-de80-4499-ac60-3bdcc7ab1e3e.png)
+
+I want to tell you I thought may be issue in 2.18.2 exoplayer version because its deprecated now. SO i decided to move on media3 after implementing media 3 still i am getting same issue in media 3 library. 
+
+Its mean something is wrong in your library even exoplayer or even media3 you have to check it whats the going wrong. 10% Users are getting same crash according to Firebase Crashlytics. And 10% is too much for us we cant afford these crashes anymore. 
+
+This is our last attempt to fix this issue if still not fix then we have to change the media player.
+
+### Media
+
+You can use any m3u8 link for creating this issue all specific devices that i have mentioned above.
+
+
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['duplicate'],['marcbaechinger'],,4
+10831,How to pre-cache List of videos uisng exoplayer before playing it in recyclerview,closed,2022-12-05 05:04:38,2023-02-06 02:05:34,2022-12-07 10:23:37,"I'm able to cache a playing video using the below code:
+```
+ ProgressiveMediaSource mediaSource = new ProgressiveMediaSource.Factory(
+                new CacheDataSource.Factory()
+                        .setCache(SimpleMediaPlayer.simpleCache)
+                        .setUpstreamDataSourceFactory(new DefaultDataSource.Factory(this,new DefaultHttpDataSource.Factory()))
+                         .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+        ).createMediaSource(MediaItem.fromUri(""https://xxxxxx.s3.us-north-2.amazonaws.com/xxxxxx.mp4""));
+
+        playerView.setPlayer(player);
+        player.setMediaSource(mediaSource);
+        player.prepare();
+```
+But my problem is every video is buffering at least 5-10 seconds before playing in recyclerview. I don't want to cache full video , I just want to cache first 20-30 seconds of each video.
+
+My flow is like fetch 15 videos(URL) from server and put it into recyclerview and before user scrolling I have already another 15 videos(URL) in my local database.
+
+So I want that video should be cached(first 20-30) before playing it in recyclerview. I know something that is work manager but periodic work manager's minimum limit is 15 min to call a second work. I don't I'm confused, how to cache video. Should I run a for loop in background workmanager?
+",['question'],['marcbaechinger'],,4
+10830,how can i play local mp3 aes encrypted file ,closed,2022-12-04 17:41:40,2023-02-05 02:05:22,2022-12-06 13:58:23,"Unfortunately we can't answer all questions. Unclear questions or questions with
+insufficient information may not get attention.
+
+Before filing a question:
+-------------------------
+
+- Ask general Android development questions on Stack Overflow
+- Search existing issues, including issues that are closed
+  https://github.com/google/ExoPlayer/issues?q=is%3Aissue
+- Consult our developer website (https://exoplayer.dev/) and Javadoc
+  (https://exoplayer.dev/doc/reference/)
+
+When filing a question:
+-------------------------
+
+Describe your question in detail.
+
+In case your question refers to a problem you are seeing in your app:
+
+- Output of running `$ adb bugreport` in the console
+
+In case your question is related to a piece of media:
+
+- URI to test content
+- For protected content:
+  - DRM scheme and license server URL
+  - Authentication HTTP headers
+
+Don't forget to check supported formats and devices
+(https://exoplayer.dev/supported-formats.html).
+
+If there's something you don't want to post publicly, please submit the issue,
+then email the link/bug report to dev.exoplayer@gmail.com using a subject in the
+format ""Issue #1234"", where #1234 is your issue number (we don't reply to
+emails).
+","['question', 'needs triage']",[],,1
+10829,IMA extension: catch WebView exceptions,open,2022-12-04 08:07:17,2022-12-05 15:31:52,,"### ExoPlayer Version
+
+2.15.1
+
+### Devices that reproduce the issue
+
+All devices which does not have WebView or disabled it
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Play samples with ads using ima extension
+
+### Expected result
+
+When WebView is not available, we expect player to skip the ads, since WebView is only needed for playing ads and not the actual video.
+
+### Actual result
+
+Playback crashed with the exception `android.util.AndroidRuntimeException: android.webkit.WebViewFactory$MissingWebViewPackageException: Failed to load WebView provider: No WebView installed`
+
+### Media
+
+Not applicable
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug: device specific'],['marcbaechinger'],,5
+10828,Getting app crash after updating to 2.18.2,closed,2022-12-02 11:36:15,2023-03-19 01:05:32,2023-01-17 17:10:58,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Android Tv and Fire TV
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Play any video
+
+### Expected result
+
+Vidoe should play
+
+### Actual result
+
+App is crashing
+
+### Media
+
+   --------- beginning of crash
+2022-12-02 17:04:52.135 E: FATAL EXCEPTION: pool-31-thread-2
+    Process: ca.tsn.mobile.android.stag, PID: 22224
+    com.google.ads.interactivemedia.v3.internal.ayb: java.lang.IncompatibleClassChangeError: The method 'java.lang.Class java.lang.Object.getClass()' was expected to be of type interface but instead was found to be of type virtual (declaration of 'com.google.ads.interactivemedia.v3.internal.bqd' appears in /data/app/ca.tsn.mobile.android.stag-1/base.apk:classes17.dex)
+        at com.google.ads.interactivemedia.v3.internal.ayl.b(IMASDK:6)
+        at com.google.ads.interactivemedia.v3.internal.ayu.e(IMASDK:1)
+        at com.google.ads.interactivemedia.v3.internal.te.run(IMASDK:5)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1133)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:607)
+        at java.lang.Thread.run(Thread.java:761)
+     Caused by: java.lang.IncompatibleClassChangeError: The method 'java.lang.Class java.lang.Object.getClass()' was expected to be of type interface but instead was found to be of type virtual (declaration of 'com.google.ads.interactivemedia.v3.internal.bqd' appears in /data/app/ca.tsn.mobile.android.stag-1/base.apk:classes17.dex)
+        at com.google.ads.interactivemedia.v3.internal.bqd.<clinit>(IMASDK:1)
+        at com.google.ads.interactivemedia.v3.internal.bqf.<clinit>(IMASDK:1)
+        at com.google.ads.interactivemedia.v3.internal.bqf.f(IMASDK)
+        at com.google.ads.interactivemedia.v3.internal.bqj.a(IMASDK:7)
+        at com.google.ads.interactivemedia.v3.internal.bqx.b(IMASDK:3)
+        at com.google.ads.interactivemedia.v3.internal.bqx.c(IMASDK:1)
+        at com.google.ads.interactivemedia.v3.internal.bpg.aW(IMASDK:1)
+        at com.google.ads.interactivemedia.v3.internal.bpg.aV(IMASDK:1)
+        at com.google.ads.interactivemedia.v3.internal.aij.m(IMASDK:7)
+        at com.google.ads.interactivemedia.v3.internal.aij.f(IMASDK:2)
+        at com.google.ads.interactivemedia.v3.internal.aif.call(IMASDK)
+        at com.google.ads.interactivemedia.v3.internal.ayw.a(IMASDK:1)
+        at com.google.ads.interactivemedia.v3.internal.ayp.run(IMASDK:4)
+        at com.google.ads.interactivemedia.v3.internal.ayx.run(IMASDK:1)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1133) 
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:607) 
+        at java.lang.Thread.run(Thread.java:761) 
+
+### Bug Report
+
+- [x] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bug'],['marcbaechinger'],,11
+10827,About SoftFFmpegVideo,closed,2022-12-02 03:56:54,2023-02-02 02:06:04,2022-12-03 17:36:23,"Since 2.17.0
+Exo can't use SoftFFmpegVideo because allowChunklessPreparation is default true
+
+Is there anyway to keep allowChunklessPreparation = true and use System SoftFFmpegVideo ?
+
+Here is test link
+http://113.62.253.10/live.aishang.ctlcdn.com/00000110240389_1/playlist.m3u8?CONTENTID=00000110240389_1&AUTHINFO=FABqh274XDn8fkurD5614t%2B1RvYajgx%2Ba3PxUJe1SMO4OjrtFitM6ZQbSJEFffaD35hOAhZdTXOrK0W8QvBRom%2BXaXZYzB%2FQfYjeYzGgKhP%2Fdo%2BXpr4quVxlkA%2BubKvbU1XwJFRgrbX%2BnTs60JauQUrav8kLj%2FPH8LxkDFpzvkq75UfeY%2FVNDZygRZLw4j%2BXtwhj%2FIuXf1hJAU0X%2BheT7g%3D%3D&USERTOKEN=eHKuwve%2F35NVIR5qsO5XsuB0O2BhR0KR",['question'],['rohitjoins'],,3
+10826,The player requested the manifest three times without encountering any failures.,open,2022-12-01 16:37:09,2022-12-02 17:20:08,,"### ExoPlayer Version
+
+2.13.3
+
+### Devices that reproduce the issue
+
+Android TV
+
+### Devices that do not reproduce the issue
+
+Yes 
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+Just play any drm content
+
+### Expected result
+
+If the player encounters any failure, it should rerequest the manifest.
+
+### Actual result
+
+player requesting the manifest 3 times even tho the first request was success 
+
+<img width=""549"" alt=""image"" src=""https://user-images.githubusercontent.com/70263901/205106858-6a334149-1ad3-4a52-bbed-854ffab3d43a.png"">
+
+
+
+### Media
+
+i will send sample to by email
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['rohitjoins'],,0
+10825,Adding WHEP (WebRTC-HTTP Egress Protocol) support,open,2022-12-01 04:47:16,2022-12-07 08:58:44,,"### Playback support for WebRTC based low latency, live streaming
+WebRTC based WHEP protocal allows live streaming with sub-second latency.
+CDN providers such as [Cloudflare](https://blog.cloudflare.com/webrtc-whip-whep-cloudflare-stream/) have support for WHEP to stream live and low latency video via their CDN.
+Allow viewers to watch content from WebRTC based streaming services and/or Content Delivery Networks (CDNs).
+
+### Proposed solution
+Implementing IEFT spec on WHEP - https://www.ietf.org/id/draft-murillo-whep-01.html
+
+### Alternatives considered
+Full fledged WebRTC libraries such as https://webrtc.github.io/webrtc-org/native-code/android/ may be a alternative solution.
+","['enhancement', 'low priority']",['rohitjoins'],,1
+10824,Unseekable webm audio produced by Google Chrome,closed,2022-12-01 02:58:10,2023-06-17 01:05:11,2023-04-17 09:02:09,"ExoPlayer 2.18.1
+
+There is a [well-known bug](https://bugs.chromium.org/p/chromium/issues/detail?id=642012) in Chrome (which Google acknowledges but refuses to fix) causing Chrome to produce webm audio with no SeekHead and no duration. A sample is attached.
+
+```
+% mkvalidator --details ~/Downloads/elevator-music.webm 
+WRN801: The segment has no SeekHead section
+mkvalidator 0.6.0: the file appears to be valid
+Track #1             A_OPUS 24493 bits/s
+	file ""/Users/gene/Downloads/elevator-music.webm""
+	created with Chrome / Chrome
+```
+
+When I seek the media, ExoPlayer changes state to `BUFFERING` first, `getCurrentPosition` returns the correct value. Then state changes to `READY` and `getCurrentPosition` returns 0. I.e. every time I seek it, it resets to the beginning. 
+
+Using `setConstantBitrateSeekingEnabled(true)` does not appear to have any effect:
+```java
+new DefaultMediaSourceFactory(mActivity, new DefaultExtractorsFactory().setConstantBitrateSeekingEnabled(true))
+                        .setDataSourceFactory(dataSourceFactory)
+                        .createMediaSource(new MediaItem.Builder().setUri(uri).build());
+```
+
+Is there *any* way to make this media seekable by ExoPlayer on Android? I would be fine even if seeking is imprecise by a couple of seconds. The duration of the record is known, size in bytes too. It should be possible to seek to the approximately correct position with the assumption of the constant bit rate. I suspect VLC does just that because it can seek this media. Chrome can seek it too.
+
+Would it help to transform the media to another format? If yes, how?
+
+Thanks!
+
+[elevator-music.webm](https://user-images.githubusercontent.com/5938143/204952925-039b317d-f8ca-42b6-a0de-7c5d2ee17e87.webm)
+",['wont fix: intended behavior'],['icbaker'],,5
+10823,dash webvtt subtitles don't show if subtitles in several chunks,closed,2022-11-30 13:25:24,2023-02-01 02:06:03,2022-12-02 10:24:09,"Hi
+We have issue - dash webvtt subtitles don't show if subtitles in several chunks.
+I understood ExoPlayer add chunk start time to time in vtt file.
+If in chunk time is
+00:01.000 --> 00:03.000
+Chunk start time 30s for example, so render time we have 30s+1s = 31s
+How to make to work proper?
+It is all ok in hls.
+Look like with dash field subsampleOffsetUs left OFFSET_SAMPLE_RELATIVE and I don't understand how make it correct
+","['question', 'bad media']",['icbaker'],,6
+10822,Clear Key with key rotation on DASH live service,closed,2022-11-30 04:58:18,2023-02-01 02:06:04,2022-12-02 09:32:57,"I would like to know whether DASH clear key with key rotation is supported on ExoPlayer?
+
+I have the manifest like below (removed unnecessary info for better readability):
+Clear key is defined as per DASH-IF IOP-6 V5.0.0 clause 8 (with UUID `e2719d58-a985-
+b3c9-781a-b030af78d30e`)
+```
+<?xml version=""1.0"" encoding=""UTF-8"" ?>
+<MPD profiles=""urn:mpeg:dash:profile:isoff-live:2011,http://www.dashif.org/guidelines/low-latency-live-v5"" type=""dynamic"" availabilityStartTime=""2011-03-01T00:00:00Z"" minimumUpdatePeriod=""PT4.0S"" minBufferTime=""PT0.1S"" publishTime=""2022-11-30T03:05:17.285Z"" timeShiftBufferDepth=""PT10M"" xmlns=""urn:mpeg:dash:schema:mpd:2011"" xmlns:cenc=""urn:mpeg:cenc:2013"" xmlns:mspr=""urn:microsoft:playready"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd"">
+	<Period start=""PT0S"" id=""1"">
+		<AdaptationSet mimeType=""video/mp4"" startWithSAP=""1"" segmentAlignment=""true"" par=""16:9"">
+			<ContentProtection schemeIdUri=""urn:mpeg:dash:mp4protection:2011"" value=""cenc"" cenc:default_KID=""d8fa10d5-1e55-366d-a8f3-fe564e20ed97""></ContentProtection>
+			<ContentProtection schemeIdUri=""urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed""></ContentProtection>
+			<ContentProtection schemeIdUri=""urn:uuid:e2719d58-a985-b3c9-781a-b030af78d30e""><clearkey:Laurl xmlns:clearkey=""http://dashif.org/guidelines/clearKey"" Lic_type=""EME-1.0"">https://<LicenseServer>/AcquireLicense</clearkey:Laurl></ContentProtection>
+		</AdaptationSet>
+	</Period>
+</MPD>
+```
+(Ignore mixing DRM systems in single mpd. It's for dev purpose only)
+
+I have also the init segment and segments PSSH box. It is constructed as per W3C ""cenc"" Initialization Data Format clause 4 (with UUID `1077efec-c0b2-4d02-ace3-3c1e52e2fb4b`)
+```PSSH box: 0000003470737368010000001077efecc0b24d02ace33c1e52e2fb4b00000001b42128a2537d3ff2948c212d4020089900000000```
+
+The license server complies with W3C EME spec clause 9
+
+media.exolist.json
+```
+{
+  ""name"": ""<name>"",
+  ""uri"": ""<url>"",
+  ""drm_scheme"": ""clearkey"",
+  ""drm_multi_session"": true
+}
+```
+
+However ExoPlayer refuses to use the KID from the box. It uses the default KID instead. That makes the service unplayable.
+
+If I make the following changes in FrameworkMediaDrm to merge two DRM systems (Clear key & Common PSSH):
+``` 
+private static SchemeData getSchemeData(UUID uuid, List<SchemeData> schemeDatas) {
+  if (C.CLEARKEY_UUID.equals(uuid)) {
+    SchemeData clearKey = null;
+    SchemeData commonPssh = null;
+    for (SchemeData data : schemeDatas) {
+      if (C.CLEARKEY_UUID.equals(data.uuid)) {
+        clearKey = data;
+      } else if (C.COMMON_PSSH_UUID.equals(data.uuid)) {
+        commonPssh = data;
+      }
+    }
+    if (clearKey != null && commonPssh != null) {
+      return clearKey.copyWithData(commonPssh.data);
+    }
+  }
+  if (!C.WIDEVINE_UUID.equals(uuid)) {
+    // For non-Widevine CDMs always use the first scheme data.
+    return schemeDatas.get(0);
+  }
+  ...
+}
+```
+It plays just fine. 
+
+I'm not sure if that's a bug, not yet supported in ExoPlayer, or I misconfigured it. Please advise.","['question', 'bad media']",['icbaker'],,5
+10821,how to get the every frame of video when scrub move?,closed,2022-11-29 08:05:00,2023-03-03 02:06:13,2023-01-02 02:04:29,"I want to preview the frame of position in the function onScrubMove(TimeBar timeBar, long position) of TimeBar.OnScrubListener,but i do not know how to realize it","['question', 'closed-by-bot']",['rohitjoins'],,4
+10820,Crash when seeking within bounds of clipped media,open,2022-11-29 06:45:20,2023-08-21 12:33:31,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+- OnePlus 8T
+- Emulator Android 11.0 arm64-v8a 
+
+### Devices that do not reproduce the issue
+
+None so far
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+Given an MP3 file as media:
+Let `x` be an integer offset less than the duration of the media that playback should start from.
+Let `y` be an integer position less than the duration of the media that the user requests to seek to, where `x` + `y` > duration of media.
+1. Set audio clipping of media to `x`.
+2. Seek to `y`.
+In my case (in the linked media),`x` was 714827 ms, `y` was 1729561 ms, and duration was 1860000.
+
+### Expected result
+
+Media continues playback from `y`.
+
+### Actual result
+
+ERROR_CODE_FAILED_RUNTIME_CHECK (1004). 
+Stack trace: com.google.android.exoplayer2.ExoPlaybackException: Unexpected runtime error
+ 	at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:621)
+	at android.os.Handler.dispatchMessage(Handler.java:102)
+ 	at android.os.Looper.loop(Looper.java:223)
+ 	at android.os.HandlerThread.run(HandlerThread.java:67)
+ Caused by: java.lang.IllegalStateException: Playback stuck buffering and not loading
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:1075)
+	at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:495)
+ 	... 3 more
+
+And occasionally an index out of bounds exception
+
+### Media
+
+https://torahcdn.net/tdn/1036481.mp3
+
+### Bug Report
+
+- [X] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['rohitjoins'],,1
+10819,Return REMOVED_AD_GROUP if adGroups is empty,open,2022-11-28 11:57:15,2023-04-13 15:42:51,,,[],['marcbaechinger'],,3
+10818,3840 frame width video in short HIGH RESOLUTION videos not playing and gives decoder initialization error,open,2022-11-28 10:06:00,2022-12-12 16:24:35,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+All
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+```
+exoPlayer = new ExoPlayer.Builder(holder.mVideoView.getContext()).setLoadControl(loadControl).build();
+
+holder.mVideoView.setPlayer(exoPlayer);
+
+    holder.mVideoView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+    holder.mVideoView.setShutterBackgroundColor(Color.TRANSPARENT);
+    holder.mVideoView.setKeepContentOnPlayerReset(true);
+    exoPlayer.seekTo(0);
+    exoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+
+     mediaSource = new ProgressiveMediaSource.Factory(
+            new CacheDataSource.Factory()
+                    .setCache(SimpleMediaPlayer.getInstance(mContext))
+                    .setUpstreamDataSourceFactory(new DefaultHttpDataSource.Factory()
+                            .setUserAgent(mContext.getString(R.string.app_name)))
+                    .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+    ).createMediaSource(MediaItem.fromUri(videoItem.videoURL));
+
+    exoPlayer.addMediaSource(mediaSource);
+
+    exoPlayer.prepare();
+
+    exoPlayer.setPlayWhenReady(true);
+    exoPlayer.play();
+```
+
+### Expected result
+
+Videos should play whatever resolution it is.
+
+### Actual result
+
+Playback error and decode initialization error only with high resolution videos
+
+### Media
+
+any 3k,4k video you can check
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['rohitjoins'],,2
+10817,ArrayIndexOutOfBoundsException on AdPlaybackState.java,open,2022-11-28 09:43:48,2022-11-29 11:03:03,,"### ExoPlayer Version
+
+2.16.0
+
+### Devices that reproduce the issue
+
+Samsung
+Huawei
+Motorola
+Amazon
+Lenovo
+Oppo
+Google
+Xiaomi
+Sony
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+Play a video with ads
+
+### Expected result
+
+App play ads
+
+### Actual result
+
+App close itself
+
+### Media
+
+```
+Fatal Exception: java.lang.ArrayIndexOutOfBoundsException: length=0; index=0
+       at com.google.android.exoplayer2.source.ads.AdPlaybackState.getAdGroup(AdPlaybackState.java:485)
+       at com.google.android.exoplayer2.Timeline$Period.getAdGroupTimeUs(Timeline.java:728)
+       at com.google.android.exoplayer2.analytics.PlaybackStatsListener.findBestEventTime(PlaybackStatsListener.java:322)
+       at com.google.android.exoplayer2.analytics.PlaybackStatsListener.onEvents(PlaybackStatsListener.java:247)
+       at com.google.android.exoplayer2.analytics.AnalyticsCollector.lambda$setPlayer$1$AnalyticsCollector(AnalyticsCollector.java:142)
+       at com.google.android.exoplayer2.analytics.-$$Lambda$AnalyticsCollector$uX7qombvbhfllBfrArZ4fy72Fso.invoke(-.java:6)
+       at com.google.android.exoplayer2.util.ListenerSet$ListenerHolder.iterationFinished(ListenerSet.java:272)
+       at com.google.android.exoplayer2.util.ListenerSet.handleMessage(ListenerSet.java:224)
+       at com.google.android.exoplayer2.util.ListenerSet.handleMessage(ListenerSet.java)
+       at com.google.android.exoplayer2.util.-$$Lambda$ListenerSet$gt28PMFfhLXGfIVY4v7eP9kmalg.handleMessage(-.java:2)
+       at android.os.Handler.dispatchMessage(Handler.java:102)
+       at android.os.Looper.loopOnce(Looper.java:223)
+       at android.os.Looper.loop(Looper.java:317)
+       at android.app.ActivityThread.main(ActivityThread.java:7942)
+       at java.lang.reflect.Method.invoke(Method.java)
+       at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:568)
+       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1045)
+```
+
+### Bug Report
+
+- [X] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['marcbaechinger'],,0
+10816,Enable CastPlayer to report live stream duration,open,2022-11-26 15:25:22,2023-04-13 15:42:52,,,[],['marcbaechinger'],,3
+10815,Issue while playing offline DRM videos,closed,2022-11-25 12:18:29,2023-01-29 02:05:25,2022-11-29 08:00:00,"I'm trying to implement Offline DRM on my end, and the video is getting downloaded and working fine when I'm in the app. But when I close the app, close the internet, it's not able to play. 
+
+My assumption is that the offline license is not getting downloaded. 
+
+Adding gist for the code here:
+Player: https://gist.github.com/dushyantclassplus/f97aa3bb95708172f6334e51af9d7d76
+Download: https://gist.github.com/dushyantclassplus/21dea3d1ed8a95b0802c0b6d44e9a7ad
+
+Please provide some info or help me guide in the right direction. ",['question'],['icbaker'],,2
+10814,Sometimes Video Rotates automatically sometimes not in viewpager when scroll up for video rotation degree is 90 in metadata,closed,2022-11-25 09:49:11,2023-02-11 02:05:24,2022-12-12 10:33:56,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+All versions of android
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+I am using this to decode video.
+
+```
+DefaultRenderersFactory rf = new DefaultRenderersFactory(mContext)
+                .setExtensionRendererMode(EXTENSION_RENDERER_MODE_PREFER).setMediaCodecSelector(
+                        new MediaCodecSelector() {
+                            @Override
+                            public List<MediaCodecInfo> getDecoderInfos(String mimeType,
+                                                                        boolean requiresSecureDecoder, boolean requiresTunnelingDecoder)
+                                    throws MediaCodecUtil.DecoderQueryException {
+                                List<MediaCodecInfo> decoderInfos = MediaCodecSelector.DEFAULT
+                                        .getDecoderInfos(mimeType, requiresSecureDecoder, requiresTunnelingDecoder);
+                                if (MimeTypes.VIDEO_H264.equals(mimeType)) {
+                                    // copy the list because MediaCodecSelector.DEFAULT returns an unmodifiable list
+                                    decoderInfos = new ArrayList<>(decoderInfos);
+                                    Collections.reverse(decoderInfos);
+                                }
+                                return decoderInfos;
+                            }
+                        });
+
+  exoPlayer = new ExoPlayer.Builder(holder.mVideoView.getContext(),rf).setLoadControl(loadControl).build();
+
+
+    holder.mVideoView.setPlayer(exoPlayer);
+
+        holder.mVideoView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+        holder.mVideoView.setShutterBackgroundColor(Color.TRANSPARENT);
+        holder.mVideoView.setKeepContentOnPlayerReset(true);
+        exoPlayer.seekTo(0);
+        exoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+
+         mediaSource = new ProgressiveMediaSource.Factory(
+                new CacheDataSource.Factory()
+                        .setCache(SimpleMediaPlayer.getInstance(mContext))
+                        .setUpstreamDataSourceFactory(new DefaultHttpDataSource.Factory()
+                                .setUserAgent(mContext.getString(R.string.app_name)))
+                        .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+        ).createMediaSource(MediaItem.fromUri(videoItem.videoURL));
+
+        exoPlayer.addMediaSource(mediaSource);
+
+        exoPlayer.prepare();
+
+        exoPlayer.setPlayWhenReady(true);
+        exoPlayer.play();
+
+```
+
+### Expected result
+
+Video play with correct rotation.
+
+### Actual result
+
+it rotates video sometimes and sometimes not.
+
+### Media
+
+any media url.It randomly rotates.
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['duplicate', 'wont fix: app issue']",['christosts'],,2
+10813,HLS m3u8 still loads after seekToPrevious/seekToNext,open,2022-11-24 18:45:47,2022-11-30 07:33:27,,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Samsung Galaxy s10e / Android 12
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+1. We have playlist of hls stations
+2. Play first
+3. Call seekToPrevious/seekToNext
+4. Check network calls
+
+### Expected result
+
+After switching to next radio we should load m3u8 only for current station
+
+### Actual result
+
+After switching to next radio app loads m3u8 for previous station and for current station.
+If we call seekToNext a lot of time, app will be load each m3u8 every time. We have 90 stations and after skipping all stations I see 90 request to obtain m3u8 file for each station.
+
+### Media
+
+example hls
+https://radiorecord.hostingradio.ru/rr_main96.aacp
+https://radiorecord.hostingradio.ru/rus_main96.aacp
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['enhancement'],['tianyif'],,2
+10812,Track a player's audio track progress,closed,2022-11-24 15:11:48,2023-01-25 02:05:33,2022-11-25 14:25:35,"As I understand, there is no progress event listener implementation within ExoPlayer, and that is because it would need multiple API calls.
+
+What I would like to ask is if there is a workaround to capture an audio's progress. What I would like to implement is the following:
+
+I have player A which constantly plays a background music, and I have player B which plays a playlist of tracks. When the playlist of player B is done, player A also stops (also when play and pause buttons are pressed.)
+
+I would like to reduce the volume of player A when a track on player B starts (""fade out"") and increase the volume of player A when a track on player B ends (""fade in"") in order to create background effects. Therefore I would like to capture player B's each track progress so I can make changes e.g. during the last 3 seconds and the first 3 seconds of each track of player A.
+
+Any ideas?",['question'],['christosts'],,1
+10811,Typo in r2.18.2 release notes,closed,2022-11-24 00:43:14,2023-01-24 02:05:44,2022-11-24 10:44:36,"> Rename com.google.android.exoplayer2.audio.AudioProcessor to com.google.android.exoplayer2.audio.AudioProcessor.
+
+Both source and target of the rename are identical.",['question'],['christosts'],,1
+10810,Multiple exoplayers in list view not rendering correctly on android 13,open,2022-11-23 13:29:42,2023-01-30 08:13:04,,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+Any device running android 13
+Tested on Samsung Galaxy S20 and Google Pixel 6 pro
+
+### Devices that do not reproduce the issue
+
+Haven't found a device that doesn't reproduce this issue
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Hi, I'm farely new to exoPlayer and I've encountered a bug while trying to run my code on android 13.
+When I scroll my list, on the current visible video, the upper one is drawn on top (just the first frame). I can't figure out the reason behind that
+
+I encountered this bug in my app and tried it also in the demo app by recreating a simpler version of my own code.
+
+I've included my source code so you could recreate the issue, the code is my version of the ./demos/main folder all you need to do is put the code in your demo app and run the ""demo"" configuration.
+[main.zip](https://github.com/google/ExoPlayer/files/10075768/main.zip)
+
+After that scroll to the bottom of the list and slowly scroll up untill just before the upper video is about to render on screen. (PlayerAdapter.onViewAttachedToWindow is called and the error is visible then)
+
+### Expected result
+
+Players seamlessly play one after another on scroll.
+
+### Actual result
+
+On scroll one player item is drawn over another as seen in the attached video
+
+https://user-images.githubusercontent.com/39884909/203557086-2670fe73-28ed-44f3-a00e-d764aa25ef45.mp4
+
+
+
+### Media
+
+https://cdn.jwplayer.com/manifests/6gCvdLll.m3u8
+
+### Bug Report
+
+- [X] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['christosts'],,3
+10809,M3U8(HLS) Streams are getting skipped when trying to play it on Android TV from Android Mobile by connecting Android TV Chromecast.,open,2022-11-23 13:21:19,2023-01-06 05:27:08,,"### ExoPlayer Version
+
+2.17.1
+
+### Devices that reproduce the issue
+
+We Have used Samsung M32 Android Mobile (Android version 12) Chromecast Feature.
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+We have shared issue HLS Streams on mail - dev.exoplayer@gmail.com
+
+### Expected result
+
+M3U8(HLS) Streams should play fine while connected to Chromecast on Android TV without getting skipped.
+
+### Actual result
+
+M3U8(HLS) Streams are getting skipped when trying to play it on Android TV from Android Mobile by connecting Android TV Chromecast.
+
+### Media
+
+Issue HLS Stream shared on [dev.exoplayer@gmail.com](mailto:dev.exoplayer@gmail.com)
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['bug', 'needs triage']",['marcbaechinger'],,5
+10808,Video is freezing after few seconds in the new 2.18.2 version,closed,2022-11-23 13:19:45,2023-01-28 02:05:37,2022-11-28 15:22:38,"### ExoPlayer Version
+
+2.18.2
+
+### Devices that reproduce the issue
+
+Xiaomi Redmi Note 11 Pro+ 5G
+
+### Reproduction steps
+
+1. You have to set cookie (""Cookie"" for `HttpDataSource.Factory` -> `.setDefaultRequestProperties()`) for this video to be able to play it in ExoPlayer;
+2. Open video.
+
+### Expected result
+
+Video must work without any issues.
+
+### Actual result
+
+Video is freezing.
+It was working fine in 2.18.1.
+
+### Media
+
+Link to the video stream will be sent to email.","['bug', 'needs triage']",['christosts'],,14
+10807,Ogg fixes,open,2022-11-22 20:35:21,2023-04-13 15:42:52,,"Improve ogg support by supporting multistream container and selecting the first supported.
+
+Properly support comment headers present in a future page.
+Properly only decode a single stream when selected by the extractor.",['pending comments'],['rohitjoins'],,6
+10806,r2.18.2,closed,2022-11-22 12:50:37,2023-01-23 02:05:45,2022-11-23 11:38:08,,[],['microkatz'],,0
+10805,Files encrypted using AesCipherDataSink takes a lot of time (for playback to start). ,closed,2022-11-22 11:19:53,2023-02-25 02:05:37,2022-12-27 02:04:25,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+Oneplus Nord 2
+Samsung f62
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+1. Encrypt and write a file to disk using AesCipherDataSink
+2. try to play it. 
+playback will take good 10-15 secs to start, based on the device performance.
+
+please note that i am using AesCipherDataSource with no modifications to read.
+
+### Expected result
+
+The playback should start instantly.
+
+### Actual result
+
+Playback takes a lot of time.
+
+### Media
+
+Not applicable
+
+### Bug Report
+
+- [x] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['closed-by-bot'],['christosts'],,3
+10804,RTSP: Support absolute timing,open,2022-11-22 11:18:53,2022-11-23 11:13:38,,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+Motorola Moto g30 Android 12
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+When I reproduce this uri of a hikvision ip camera, the reproduction does not give me any problem:
+rtsp://xxx:xxx@host:port/ISAPI/Streaming/Channels/301
+
+but if i try to play with this uri (which worked ok in vlc and other libraries):
+rtsp://xxx:xxx@host:port/ISAPI/Streaming/tracks/301?starttime=20221121T073315Z
+
+it gives me the following error:
+
+2022-11-22 11:40:21.832 4783-4850/com.example.tssexoprueba E/ExoPlayerImplInternal: Playback error
+      com.google.android.exoplayer2.ExoPlaybackException: Source error
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:632)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:608)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loopOnce(Looper.java:226)
+        at android.os.Looper.loop(Looper.java:329)
+        at android.os.HandlerThread.run(HandlerThread.java:67)
+     Caused by: java.io.IOException: SDP format error.
+        at com.google.android.exoplayer2.source.rtsp.RtspMediaPeriod$InternalListener.onSessionTimelineRequestFailed(RtspMediaPeriod.java:652)
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.onDescribeResponseReceived(RtspClient.java:685)
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.handleRtspResponse(RtspClient.java:598)
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.handleRtspMessage(RtspClient.java:507)
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.lambda$onRtspMessageReceived$0$com-google-android-exoplayer2-source-rtsp-RtspClient$MessageListener(RtspClient.java:500)
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener$$ExternalSyntheticLambda0.run(Unknown Source:4)
+        at android.os.Handler.handleCallback(Handler.java:938)
+        at android.os.Handler.dispatchMessage(Handler.java:99)
+        at android.os.Looper.loopOnce(Looper.java:226) 
+        at android.os.Looper.loop(Looper.java:329) 
+        at android.os.HandlerThread.run(HandlerThread.java:67) 
+     Caused by: com.google.android.exoplayer2.ParserException: clock=20221121T073315Z-20221122T113914Z
+        at com.google.android.exoplayer2.source.rtsp.RtspMessageUtil.checkManifestExpression(RtspMessageUtil.java:471)
+        at com.google.android.exoplayer2.source.rtsp.RtspSessionTiming.parseTiming(RtspSessionTiming.java:51)
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.onDescribeResponseReceived(RtspClient.java:683)
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.handleRtspResponse(RtspClient.java:598) 
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.handleRtspMessage(RtspClient.java:507) 
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener.lambda$onRtspMessageReceived$0$com-google-android-exoplayer2-source-rtsp-RtspClient$MessageListener(RtspClient.java:500) 
+        at com.google.android.exoplayer2.source.rtsp.RtspClient$MessageListener$$ExternalSyntheticLambda0.run(Unknown Source:4) 
+        at android.os.Handler.handleCallback(Handler.java:938) 
+        at android.os.Handler.dispatchMessage(Handler.java:99) 
+        at android.os.Looper.loopOnce(Looper.java:226) 
+        at android.os.Looper.loop(Looper.java:329) 
+        at android.os.HandlerThread.run(HandlerThread.java:67) 
+
+
+
+### Expected result
+
+The media plays ok
+
+### Actual result
+
+it gives me an error
+
+### Media
+
+Not applicable
+
+### Bug Report
+
+- [X] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.","['enhancement', 'low priority']",['claincly'],,5
+10803,Exoplayer can't play audio for HLS,closed,2022-11-21 14:58:57,2023-01-24 02:05:44,2022-11-24 13:40:49,"ExoPlayer Version
+2.18.1
+
+Devices that reproduce the issue
+All android devices
+
+Devices that do not reproduce the issue
+none
+
+Reproducible in the demo app?
+No
+Downloaded file plays(as am using progressive media source).
+But Hls file does not play.
+
+Reproduction steps
+After changing version to 2.18.1 from 2.11.3.
+playing hls media source produces error below
+
+E/LoadTask: Unexpected exception loading stream
+      java.lang.NullPointerException: Attempt to invoke interface method 'java.lang.Object java.util.Map.get(java.lang.Object)' on a null object reference
+        at com.google.android.exoplayer2.util.FileTypes.inferFileTypeFromResponseHeaders(FileTypes.java:126)
+        at com.google.android.exoplayer2.source.hls.DefaultHlsExtractorFactory.createExtractor(DefaultHlsExtractorFactory.java:106)
+        at com.google.android.exoplayer2.source.hls.DefaultHlsExtractorFactory.createExtractor(DefaultHlsExtractorFactory.java:48)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.prepareExtraction(HlsMediaChunk.java:513)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.feedDataToExtractor(HlsMediaChunk.java:468)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.loadMedia(HlsMediaChunk.java:437)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.load(HlsMediaChunk.java:394)
+        at com.google.android.exoplayer2.upstream.Loader$LoadTask.run(Loader.java:412)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+        at java.lang.Thread.run(Thread.java:919)
+2022-11-21 19:38:07.455 6709-6968/com.gurumaa.amritvarsha E/ExoPlayerImplInternal: Playback error
+      com.google.android.exoplayer2.ExoPlaybackException: Source error
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleIoException(ExoPlayerImplInternal.java:632)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:608)
+        at android.os.Handler.dispatchMessage(Handler.java:103)
+        at android.os.Looper.loop(Looper.java:241)
+        at android.os.HandlerThread.run(HandlerThread.java:67)
+     Caused by: com.google.android.exoplayer2.upstream.Loader$UnexpectedLoaderException: Unexpected NullPointerException: Attempt to invoke interface method 'java.lang.Object java.util.Map.get(java.lang.Object)' on a null object reference
+        at com.google.android.exoplayer2.upstream.Loader$LoadTask.run(Loader.java:433)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+        at java.lang.Thread.run(Thread.java:919)
+     Caused by: java.lang.NullPointerException: Attempt to invoke interface method 'java.lang.Object java.util.Map.get(java.lang.Object)' on a null object reference
+        at com.google.android.exoplayer2.util.FileTypes.inferFileTypeFromResponseHeaders(FileTypes.java:126)
+        at com.google.android.exoplayer2.source.hls.DefaultHlsExtractorFactory.createExtractor(DefaultHlsExtractorFactory.java:106)
+        at com.google.android.exoplayer2.source.hls.DefaultHlsExtractorFactory.createExtractor(DefaultHlsExtractorFactory.java:48)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.prepareExtraction(HlsMediaChunk.java:513)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.feedDataToExtractor(HlsMediaChunk.java:468)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.loadMedia(HlsMediaChunk.java:437)
+        at com.google.android.exoplayer2.source.hls.HlsMediaChunk.load(HlsMediaChunk.java:394)
+        at com.google.android.exoplayer2.upstream.Loader$LoadTask.run(Loader.java:412)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167) 
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641) 
+        at java.lang.Thread.run(Thread.java:919) 
+
+[AudioPlayerService.txt](https://github.com/google/ExoPlayer/files/10057555/AudioPlayerService.txt)
+[streamdatasource.txt](https://github.com/google/ExoPlayer/files/10057567/streamdatasource.txt)
+",['question'],['tianyif'],,2
+10802,Is there a way to update the subtitle in exo?,closed,2022-11-21 13:10:56,2023-01-31 02:06:07,2022-12-01 15:59:54,"is there a way to update the subtitle in exo player? Since im working with multi period manifest and the subtitle always come inside the 2nd period since the first period is an ad period 
+
+and as i can see exo player tries to read the subtitle from the first period and in case it didnt find it, it will consider there is no subtitle or sub audio.
+
+is there anything u can help me with this ??
+
+regards","['question', 'need more info']",['icbaker'],,6
+10801,How to load HD video from server in 360p or 144p quality in app,closed,2022-11-21 12:30:16,2023-01-22 02:05:16,2022-11-22 12:28:24,"I am working on a project where I load videos from a server, but the videos on my server are HD quality. So, how can I load this HD video in the low-quality video to save internet data? I tried trackselector.setparameter but it didn't change, videos are still loading in high quality.
+",['question'],['christosts'],,2
+10800,Refresh token during license request,closed,2022-11-21 11:47:20,2023-04-11 01:05:58,2023-02-09 15:20:11,"Hi there I got this question. 
+In the scenario that we are using dash + drm license. 
+We know that the license indicates the playback refreshment period. So for example, if the user is watching a content for 24 hours and the refreshment period is 5 hours, so every 5 hours playback should refresh the license, making a request to the license server provider. Many times this license provider requires a token. We can add this token using the next function. 
+
+```
+setKeyRequestProperty(
+            NetworkApi.HEADER_AUTHORIZATION,
+            ""Bearer (token)"" ,
+        )
+```
+
+This token also has expiration time ex: 30 mins. So we need to refresh the token every 25 min ( good idea to refresh the token x minutes before it gets expired). Question is, **do you think that this refreshment makes sense**?? Because we already refreshed the license sending payload (authenticating device...) every 5 hours in this example. I am not sure if refreshing this token brings more security. Another point is that we need to add extra code in order to keep refreshing this token periodically. Why does Exoplayer not have a mechanism that allows us to, apart from setting the token, set the expiration time so it can deal with this refreshment?
+
+
+",['question'],['icbaker'],,2
+10799,Add support for ID3v2.4 multi-value tags,closed,2022-11-21 01:33:27,2023-01-29 02:05:26,2022-11-29 20:53:50,"#### The problem
+
+My app uses ExoPlayer's metadata parser to work around issues with `MediaStore`'s metadata handling. However, recent developments have required me to start handling multi-value tags, as many users want my app to support multiple artist/genre entries.
+
+While the vorbis extractor supports multiple instances of the tag, the ID3v2 extractor does not, even though ID3v2.4 specifies that text information frames can have multiple values in them if delimited by a null terminator. This worsens the user experience with multi-value tags.
+
+#### What this PR does
+
+This PR deprecates the `value` field in `TextInformationFrame` and replaces it with a new array field called `values`. `Id3Decoder` populates this field with multiple values if it finds multiple tags delimited by null terminators. The now-deprecated `value` field is populated with the first item in `values`, to retain compatibility with the old implementation that would parse the first value only. 
+
+This new algorithm should be backwards compatible with ID3v2.3 and ID3v2.2, as they only leverage null terminators as an informal shortcut to make serializing to C strings easier.
+
+#### Further notes
+
+I've modified other parts of the codebase to use the non-deprecated value to the most backwards-compatible extent possible. I have also added tests into `Id3Decoder` to handle the new functionality.
+",['should merge'],['icbaker'],,1
+10798,How do you get SSL to work with ExoPlayer?,closed,2022-11-21 01:32:14,2023-01-21 02:05:35,2022-11-21 12:16:56,"I have been trying to add an SSL Socket Factory to ExoPlayer for 2 days now. All the tutorials on the internet do not work.
+
+This is the closest I got, but it doesn't work.
+
+```
+(Java)
+OkHttpDataSourceFactory okHttpDataSourceFactory = new OkHttpDataSourceFactory(EndpointsCaller.getOkHttpClient());
+HlsMediaSource hlsMediaSource = new HlsMediaSource.Factory(okHttpDataSourceFactory)
+    .setAllowChunklessPreparation(true)
+    .createMediaSource(mediaItem);
+exoPlayer.setMediaSource(hlsMediaSource);
+````
+
+Can someone please help? Thanks.",['question'],['christosts'],,1
+10797,Value of getDuration at CONTENT_RESUME_REQUEST when ads are skipped,closed,2022-11-21 00:44:08,2023-01-22 02:05:17,2022-11-22 14:52:10,"Hello.
+We want to get the duration of the content by getDuration.
+If we do not skip the ad, we can call getDuration on the CONTENT_RESUME_REQUESTED event of AdEventListener to get the duration of the content.
+However, if the ad is skipped, calling getDuration on the CONTENT_RESUME_REQUESTED event of AdEventListener will get the duration of the ad.
+Please confirm this issue as we believe it is an internal processing bug in ExoPlayer.
+
+We believe the problem lies in the following isPlayingAd() process.
+```
+<ExoPlayerImpl.java>
+public long getDuration() {
+    verifyApplicationThread();
+    if (isPlayingAd()) {
+      MediaPeriodId periodId = playbackInfo.periodId;
+      playbackInfo.timeline.getPeriodByUid(periodId.periodUid, period);
+      long adDurationUs = period.getAdDurationUs(periodId.adGroupIndex, periodId.adIndexInAdGroup);
+      return Util.usToMs(adDurationUs);
+    }
+    return getContentDuration();
+  }
+```
+
+### ExoPlayer Version
+
+2.17.1
+
+### Devices that reproduce the issue
+
+Pixel5 running Android13
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+1. Play the attached media in the demo app
+2. Skip the pre-roll ad
+3. Get duration on CONTENT_RESUME_REQUESTED event
+
+### Expected result
+
+We can get the content duration.
+
+### Actual result
+
+We get the ad duration.
+
+### Media
+
+・Single skippable inline
+uri:https://storage.googleapis.com/exoplayer-test-media-1/mkv/android-screens-lavf-56.36.100-aac-avc-main-1280x720.mkv
+ad_tag_uri:https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dskippablelinear&correlator=
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['wont fix: intended behavior'],['tonihei'],,1
+10796,Player unpauses media after preparing it even with playWhenReady set to false,closed,2022-11-19 21:35:55,2023-02-19 02:05:08,2022-12-21 02:04:38,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+All devices I have
+
+### Devices that do not reproduce the issue
+
+-
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+I have an app that loads media every 10 seconds (prepares it from storage using a DocumentFile Uri).
+
+When ExoPlayer is initialized, I set the playWhenReady to false, to make sure it doesn't randomly unpause the playback when I prepare a media. However, on the second time (and third, and fourth, and so on), when I load media item and prepare it, it unpauses the video no matter what, unless I manually pause it to stop it (which is my current workaround)
+
+### Expected result
+
+Media should not play automatically with playWhenReady set to off.
+
+### Actual result
+
+Media is automatically playing after being prepared, thus ignoring playWhenReady = false
+
+### Media
+
+It doesn't matter which media I load, or what format, so it's not format-specific.
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['closed-by-bot'],['christosts'],,3
+10795,Playing video from byte array through AVPro,closed,2022-11-18 23:35:42,2023-01-22 02:05:18,2022-11-22 12:01:23,"Complete noobie to Exoplayer here.
+
+I am working on a project that is using AV Pro in Unity. AV Pro is a multiplatform video player that is using the ExoPlayer library for Android video playback. 
+
+The feature I want to develop is for video encryption. I don't want to have to save a decrypted file to the device before being able to playback. Instead I want to use the decrypted bytes of the video and allow the user to watch the video without having to save to device. For some reason AVPro does not currently support this feature. 
+
+Is there a way to compile ExoPlayer to provide us access to this feature. I am also doing research on the AVPro github and will surely post my findings here.
+
+Where can I start looking?",['question'],['christosts'],,1
+10794,"AOD (Always on Display) shows ""No Title"" when using MediaSessionConnector(mediaSession)",open,2022-11-18 18:55:41,2022-11-25 23:26:31,,"I am using a foreground service to manage my player and so far everything seems to be working as expected except for one thing.
+
+When the player is playing a media item, the Always on Display shows our icon with ""No Title"". Am I missing something, or doing  things out of order? This is on Android 13 on a Pixel 7 Pro.
+
+
+
+```
+		player = new ExoPlayer.Builder(getApplicationContext()).build();
+		mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
+		MediaSessionConnector mediaSessionConnector = new MediaSessionConnector(mediaSession);
+		mediaSessionConnector.setPlayer(player);
+		mediaSession.setActive(true);
+
+		player.setAudioAttributes(mAudioAttributes, /* handleAudioFocus= */ true);
+		player.setPauseAtEndOfMediaItems(true);
+		notificationManager = new PlayerNotificationManager.Builder(this, notificationId, channelId)
+				.setNotificationListener(notificationListener)
+				.setMediaDescriptionAdapter(descriptionAdapter)
+				.setChannelNameResourceId(R.string.app_name)
+				.build();
+		notificationManager.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+		notificationManager.setPlayer(player);
+		notificationManager.setPriority(NotificationCompat.PRIORITY_MAX);
+		notificationManager.setUseRewindAction(false);
+		notificationManager.setUseFastForwardAction(false);
+		notificationManager.setUseChronometer(true);
+		notificationManager.setSmallIcon(R.drawable.blb_reverse_icon);
+		notificationManager.setMediaSessionToken(mediaSession.getSessionToken());","['question', 'needs triage']",['marcbaechinger'],,1
+10793,Added support for Thumbnails in DASH,closed,2022-11-18 11:37:15,2023-04-03 01:05:41,2023-02-01 16:17:55,"This PR enhances the DashManifest class to allow fetching Thumbnail Meta Data for a video position and with that allowing to display thumbnail images while seeking through a video, as discussed in issue #3752 by my colleague @suraneau. 
+
+This approach is similar to how [dash.js handles thumbnails](https://reference.dashif.org/dash.js/latest/samples/thumbnails/thumbnails.html). Only the metadata (like the URL) for the thumbnail is provided by ExoPlayer via a new API. The tasks of loading, caching, crop/zoom and rendering of the (tile) images will be done by the external app/UI logic.
+
+The demo app has been enhanced as well to use this new API and display thumbnail images above the seek bar. A few streams have been added for testing.
+
+We're looking forward to your feedback.
+Thank you!
+
+Best regards,
+Görkem",['should merge'],['tonihei'],,5
+10792,Video content freezes for 1-5sec before playing when postroll is present via IMA,closed,2022-11-18 01:19:02,2023-02-17 02:06:00,2022-12-19 02:04:33,"### ExoPlayer Version
+
+Older (unsupported)
+
+### Devices that reproduce the issue
+
+Any FireTV device
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Not tested
+
+### Reproduction steps
+
+1. Download and open the IMDb What to Watch app on any FireTV device (sign in not required)
+2. Navigate to the This or That or Time Machine game
+3. Play through either of the games until a fullscreen video that says ""Intermission"" appears
+4. Notice the 2-5 second pause before the countdown timer appears in the bottom right of the video.
+
+### Expected result
+
+Video content (""Intermission"" screen/video) does not show frozen frame before playing (experience when ad is not present)
+
+### Actual result
+
+When preroll ad is loaded using IMA, video content appears frozen for 1-5 seconds before playing. The duration of frozen video is longer on older devices.
+
+### Media
+
+
+https://user-images.githubusercontent.com/117224058/202594177-b96d5bae-c18b-429b-bc9c-0a3a8eef0aaa.mov
+
+
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['closed-by-bot'],['icbaker'],,3
+10791,Eac3 audio in video,closed,2022-11-17 21:48:16,2023-01-21 02:05:36,2022-11-21 17:17:54,"I have a video that has ""eac3 audio codec"" , the video works perfectly but with no audio.
+I've tried to use ffmpeg , i did built .aar successfully and added to the libs of my project, but when I call ""Ffmpeg.isAvailable"" , I always get ""false"" as response, so I assume is not working.
+
+My .aar has 13kb of size and I added eac3 to the decoders.
+
+What should I do now ? I really need to use exoplayer I didn't want to switch.
+Thanks.",['question'],['icbaker'],,6
+10790,Initial Bitrate Estimates do not follow suit for India,closed,2022-11-17 12:17:08,2023-02-07 02:06:09,2022-12-08 14:14:04,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+All
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes
+
+### Reproduction steps
+
+Play from / Hardcode India as the country and check the initial bitrate estimates.
+
+### Expected result
+
+5G_NSA > 5G_SA > 4G > 3G > 2G
+
+### Actual result
+
+5G_NSA >  4G > 5G_SA > 2G > 3G
+
+### Media
+
+Any media
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['wont fix: intended behavior'],['tonihei'],,3
+10789,Fixed initial bitrate estimates in DefaultBandwidthMeter for India,closed,2022-11-17 12:14:18,2023-01-18 02:05:49,2022-11-18 16:57:39,"Initial bitrate estimates now for India:
+
+Network Type | Initial Bitrate Estimate 
+-- | -- |
+Wifi | 3100000
+5G_NSA | 1800000
+5G_SA | 1100000
+4G | 1400000
+3G | 910000
+2G | 1000000
+
+New proposed initial bitrate estimates for India:
+Network Type | Initial Bitrate Estimate 
+-- | -- |
+Wifi | 3100000
+5G_NSA | 1800000
+5G_SA | 1600000
+4G | 1400000
+3G | 1100000
+2G | 1000000",[],['tonihei'],,1
+10788,Update IMA SDK,closed,2022-11-17 09:29:13,2023-01-17 02:04:46,2022-11-17 10:43:40,"Exoplayer latest version is using IMA SDK: 3.26.0
+
+3.26.0 will deprecate on March 1, 2023, and is only a few months away: https://developers.google.com/interactive-media-ads/docs/sdks/android/client-side/deprecation
+
+Can we please update it to the latest version? 
+Thank you",['enhancement'],['tonihei'],,6
+10787,How to play H264 byte [] raw stream obtained from the network,closed,2022-11-17 02:51:46,2023-01-17 02:04:46,2022-11-17 11:00:07,"Unfortunately we can't answer all questions. Unclear questions or questions with
+insufficient information may not get attention.
+
+Before filing a question:
+-------------------------
+
+- Ask general Android development questions on Stack Overflow
+- Search existing issues, including issues that are closed
+  https://github.com/google/ExoPlayer/issues?q=is%3Aissue
+- Consult our developer website (https://exoplayer.dev/) and Javadoc
+  (https://exoplayer.dev/doc/reference/)
+
+When filing a question:
+-------------------------
+
+Describe your question in detail.
+
+In case your question refers to a problem you are seeing in your app:
+
+- Output of running `$ adb bugreport` in the console
+
+In case your question is related to a piece of media:
+
+- URI to test content
+- For protected content:
+  - DRM scheme and license server URL
+  - Authentication HTTP headers
+
+Don't forget to check supported formats and devices
+(https://exoplayer.dev/supported-formats.html).
+
+If there's something you don't want to post publicly, please submit the issue,
+then email the link/bug report to dev.exoplayer@gmail.com using a subject in the
+format ""Issue #1234"", where #1234 is your issue number (we don't reply to
+emails).
+
+",['duplicate'],['icbaker'],,2
+10786,Detect if less than 24 audio sampling frequency bits are present.,closed,2022-11-16 23:22:55,2023-01-24 02:05:45,2022-11-24 17:33:58,"ISO ISO14496-3 allows setting of an arbitrary audio sampling frequency in compliant streams. When samplingFrequencyIndex is set to 0xf (escape value) we expect no less than 24 bits to read sampling informtion from (See section 1.6.2.1)
+
+This change is the proposed solution to: https://github.com/google/ExoPlayer/issues/10785
+
+",['should merge'],['tonihei'],,0
+10785,Ensuring bitstream compatibility with ISO/IEC 14496-3 1.6.2.1,closed,2022-11-16 23:16:53,2023-01-18 02:05:50,2022-11-18 19:10:52,"### [REQUIRED] Use case description
+ISO/IEC 14496-3:2009 section 1.6.2.1  (AudioSpecificConfig) allows an audio stream set to a custom/arbitrary sampling frequency. Sampling frequency is a custom number when ""samplingFrequencyIndex"" == 0xf . When that is the case, there should be no less than 24 bits of ""samplingFrequency"" in the bitstream else it is an error/exception. 
+
+
+### Proposed solution
+1) Ensure that the spec is not being violated by adding appropriate bit stream length checks in AacUtil.getSamplingFrequency()
+2) Add unit test cases for class AacUtil that do not exist at the moment. 
+",['enhancement'],['tonihei'],,4
+10784,[question] Is there a Listener that is notified when all downloads have been removed?,open,2022-11-16 22:37:56,2022-11-18 01:53:54,,"When making a call [to](https://github.com/google/ExoPlayer/blob/r2.18.1/library/core/src/main/java/com/google/android/exoplayer2/offline/DownloadService.java#L479):
+```java
+  DownloadService.sendRemoveAllDownloads
+```
+which is delegated [to](https://github.com/google/ExoPlayer/blob/r2.18.1/library/core/src/main/java/com/google/android/exoplayer2/offline/DownloadManager.java#L506):
+```java
+  DownloadManager.removeAllDownloads
+```
+which is delegated [to](https://github.com/google/ExoPlayer/blob/r2.18.1/library/core/src/main/java/com/google/android/exoplayer2/offline/DownloadManager.java#L917):
+```java
+  DownloadManager.InternalHandler.removeAllDownloads
+```
+
+This appears to be an asynchronous task,
+and each download is cancelled independently in its own thread.
+
+Is there any way to wait until all downloaded data is fully removed,
+before executing a callback?
+
+pseudo code:
+```javascript
+  Promise.all(downloads.map(cancel))
+  .then(callback)
+```
+
+- - - -
+
+Because of async and threading, I don't suppose the following would work.
+But I'll pose it as an idea.
+Hopefully it'll inspire somebody else to think of a better suggestion..
+
+```java
+  DownloadService.sendRemoveAllDownloads(...);
+  // => myDownloadManager.removeAllDownloads();
+
+  if (myDownloadManager.isIdle())
+    callback();
+  else
+    myDownloadManager.addListener(new DownloadManager.Listener() {
+      @Override
+      public void onIdle(DownloadManager dm) {
+        myDownloadManager.removeListener(this);
+        callback();
+      }
+    });
+```","['question', 'needs triage']",['marcbaechinger'],,0
+10783,onPlaybackStateChanged with PlaybackState STATE_ENDED is not called when seeking on a paused video,closed,2022-11-16 12:51:39,2023-01-21 02:05:37,2022-11-21 10:25:06,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+Pixel 4 running on Android 13
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+Yes. 
+Reproduced with `demo` application and one of the HLS stream. 
+I added breakpoint in `EventLogger` `onPlaybackStateChanged` and watch logcat but it displays:
+```
+2022-11-16 14:11:18.171 24711-24711 EventLogger             com.google.android.exoplayer2.demo   D  state [eventTime=134.08, mediaPos=1800.00, window=0, period=0, BUFFERING]
+2022-11-16 14:11:18.212 24711-24711 Choreographer           com.google.android.exoplayer2.demo   I  Skipped 65 frames!  The application may be doing too much work on its main thread.
+2022-11-16 14:11:18.838 24711-24711 EventLogger             com.google.android.exoplayer2.demo   D  state [eventTime=135.16, mediaPos=1800.00, window=0, period=0, READY]
+2022-11-16 14:11:18.881 24711-24711 Choreographer           com.google.android.exoplayer2.demo   I  Skipped 39 frames!  The application may be doing too much work on its main thread.
+```
+
+### Reproduction steps
+
+1. Load an HLS video with exoplayer
+2. Play it
+3. Pause the video
+4. Use the slider or the fast forward button to go till the end of the video
+
+### Expected result
+
+When the current position is at the end of video, I expect that `onPlaybackStateChanged` is triggered with state = `STATE_ENDED`
+
+### Actual result
+
+`onPlaybackStateChanged` is not triggered.
+If I press the play button, the `onPlaybackStateChanged` with state = `STATE_ENDED` is triggered. 
+
+### Media
+
+This issue looks like https://github.com/google/ExoPlayer/issues/3918
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['wont fix: intended behavior'],['tonihei'],,5
+10782,Subtitles are not showing after lib version updated,closed,2022-11-16 11:49:58,2023-04-11 01:05:58,2023-02-09 15:19:36,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+Pixel 4
+
+### Devices that do not reproduce the issue
+
+_No response_
+
+### Reproducible in the demo app?
+
+No
+
+### Reproduction steps
+
+I have updated the library version to the latest and the subtitles are not showing, But the same subtitles are working in the older version. I have done R&D for this bug for more than 2 days and searched all the related issues (open and closed) in this GitHub repo and StackOverflow as well.
+
+Check the below code
+
+        val currentDuration =
+            simpleExoPlayer.currentPosition
+
+        val uriSubtitle =
+            Uri.parse(subtitleWithLanguage?.subTitleFile)
+
+        val subtitleItemConfig = MediaItem.SubtitleConfiguration.Builder(uriSubtitle)
+            .setMimeType(MimeTypes.APPLICATION_SUBRIP)
+            .setLanguage(""en"")
+            .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+            .setRoleFlags(C.ROLE_FLAG_SUBTITLE)
+            .build()
+
+        val videoUri =
+            mViewModel.meditationContent?.contentFile
+        
+        val mediaItem = MediaItem.Builder()
+            .setUri(Uri.parse(videoUri))
+            .setSubtitleConfigurations(ImmutableList.of(subtitleItemConfig))
+            .setClippingConfiguration(ClippingConfiguration.Builder().build())
+            .build()
+
+        simpleExoPlayer.setMediaItem(mediaItem)
+        simpleExoPlayer.prepare()
+        simpleExoPlayer.seekTo(currentDuration)
+
+### Expected result
+
+The subtitle should display.
+
+### Actual result
+
+The subtitles are not displaying
+
+### Media
+
+Not applicable
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['question'],['icbaker'],,11
+10781,Dash low latency keep throwing 404s,closed,2022-11-16 11:37:01,2023-03-28 01:06:18,2023-01-26 14:38:23,"Hi, I am testing ExoPlayer 2.18.1 for low latency live dash streaming and keep getting 404s for some fragments quite frequently which causes the player to stop after a while.
+
+We use Dash/Low latency, AdInsertion and video provider uses Amazon Cloud.
+
+The video provider has `availabilityTimeOffset=""1.800"" availabilityTimeComplete=""false""` set in their manifest and my understanding is that exoPlayer will be able to handle low latency by default.
+
+I have tried manipulating some of the params but no luck.
+
+```
+// MediaItem
+.setLiveConfiguration(MediaItem.LiveConfiguration.Builder()
+    .setMinOffsetMs(2000L)
+    .setMaxOffsetMs(6000L)
+    .setTargetOffsetMs(2000L)
+    .setMinPlaybackSpeed(1.0f)
+    .setMaxPlaybackSpeed(1.0f)
+    .build())
+
+// ExoPlayer Builder
+.setLivePlaybackSpeedControl(DefaultLivePlaybackSpeedControl.Builder()
+    .setMinUpdateIntervalMs(2000L)
+    .setTargetLiveOffsetIncrementOnRebufferMs(2000L)
+    .setFallbackMinPlaybackSpeed(1.0f)
+    .setFallbackMaxPlaybackSpeed(1.0f)
+    .build())
+```
+
+the video hosting provider uses the following **manifest**:
+
+```
+<?xml version=""1.0"" encoding=""UTF-8""?>
+<MPD xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""urn:mpeg:dash:schema:mpd:2011"" xmlns:cenc=""urn:mpeg:cenc:2013"" xsi:schemaLocation=""urn:mpeg:dash:schema:mpd:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd"" type=""dynamic"" publishTime=""2022-11-14T10:57:48.591Z"" minimumUpdatePeriod=""PT30S""  availabilityStartTime=""2022-11-08T11:32:42.379Z"" minBufferTime=""PT2S"" suggestedPresentationDelay=""PT6S"" timeShiftBufferDepth=""PT20S"" profiles=""urn:mpeg:dash:profile:isoff-live:2011""> 
+<UTCTiming schemeIdUri=""urn:mpeg:dash:utc:http-xsdate:2014"" value=""https://time.akamai.com?iso&amp;ms""></UTCTiming>
+  <Period start=""PT0S"" id=""1"">
+    <AdaptationSet mimeType=""video/mp4"" segmentAlignment=""true"" subsegmentAlignment=""true"" startWithSAP=""1"" subsegmentStartsWithSAP=""1"" bitstreamSwitching=""false"">
+      <SegmentTemplate timescale=""90000"" duration=""180000"" startNumber=""1""/>
+      <Representation id=""1"" width=""1920"" height=""1080"" bandwidth=""5500000"" codecs=""avc1.64002a"" frameRate=""60/1"">
+        <SegmentTemplate duration=""180000"" startNumber=""1"" media=""manifest_113238_dash_1_video_$Bandwidth$_$Number$.mp4"" initialization=""manifest_113238_dash_1_video_$Bandwidth$_init.mp4"" availabilityTimeOffset=""1.800"" availabilityTimeComplete=""false""/>
+      </Representation>
+      <Representation id=""2"" width=""1280"" height=""720"" bandwidth=""3000000"" codecs=""avc1.64001f"" frameRate=""30/1"">
+        <SegmentTemplate duration=""180000"" startNumber=""1"" media=""manifest_113238_dash_2_video_$Bandwidth$_$Number$.mp4"" initialization=""manifest_113238_dash_2_video_$Bandwidth$_init.mp4"" availabilityTimeOffset=""1.800"" availabilityTimeComplete=""false""/>
+      </Representation>
+      <Representation id=""3"" width=""1024"" height=""576"" bandwidth=""2048000"" codecs=""avc1.64001f"" frameRate=""30/1"">
+        <SegmentTemplate duration=""180000"" startNumber=""1"" media=""manifest_113238_dash_3_video_$Bandwidth$_$Number$.mp4"" initialization=""manifest_113238_dash_3_video_$Bandwidth$_init.mp4"" availabilityTimeOffset=""1.800"" availabilityTimeComplete=""false""/>
+      </Representation>
+      <Representation id=""4"" width=""640"" height=""360"" bandwidth=""800000"" codecs=""avc1.64001e"" frameRate=""30/1"">
+        <SegmentTemplate duration=""180000"" startNumber=""1"" media=""manifest_113238_dash_4_video_$Bandwidth$_$Number$.mp4"" initialization=""manifest_113238_dash_4_video_$Bandwidth$_init.mp4"" availabilityTimeOffset=""1.800"" availabilityTimeComplete=""false""/>
+      </Representation>
+    </AdaptationSet>
+    <AdaptationSet mimeType=""audio/mp4"" segmentAlignment=""0"" startWithSAP=""1"">
+      <SegmentTemplate timescale=""44100"" media=""manifest_113238_dash_1_audio_$Bandwidth$_$Number$.mp4"" initialization=""manifest_113238_dash_1_audio_$Bandwidth$_init.mp4"" availabilityTimeOffset=""1.800"" availabilityTimeComplete=""false"" duration=""88200"" startNumber=""1""/>
+      <Representation id=""5"" bandwidth=""96000"" audioSamplingRate=""44100"" codecs=""mp4a.40.2""/>
+    </AdaptationSet>
+    <AdaptationSet mimeType=""application/mp4"" lang=""eng"">
+      <Role schemeIdUri=""urn:mpeg:dash:role"" value=""subtitle""/>
+      <SegmentTemplate timescale=""90000"" media=""manifest_113238_dash_1_ttml_text_$Number$.mp4"" initialization=""manifest_113238_dash_1_ttml_text_init.mp4"" availabilityTimeOffset=""1.800"" availabilityTimeComplete=""false"" duration=""180000"" startNumber=""1""/>
+      <Representation id=""6"" bandwidth=""256"" codecs=""stpp""/>
+    </AdaptationSet>
+  </Period>
+</MPD>
+```
+
+**Debug Logs**:
+
+```
+[TAG_PLAYER] Ad event: AD_PROGRESS.(ExoPlayerFactoryHelper.java:299)
+: audioDecoderReleased [eventTime=17.55, mediaPos=12.00, window=0, period=0, OMX.google.aac.decoder]
+: audioDecoderInitialized [eventTime=17.56, mediaPos=12.00, window=0, period=0, OMX.google.aac.decoder]
+[TAG_PLAYER] Ad event: AD_PROGRESS.(ExoPlayerFactoryHelper.java:299)
+[TAG_PLAYER] Ad event: AD_PROGRESS.(ExoPlayerFactoryHelper.java:299)
+: videoDecoderReleased [eventTime=17.88, mediaPos=12.00, window=0, period=0, OMX.google.h264.decoder]
+: videoDecoderInitialized [eventTime=17.90, mediaPos=12.00, window=0, period=0, OMX.google.h264.decoder]
+: videoSize [eventTime=17.92, mediaPos=12.00, window=0, period=0, 640, 360]
+: renderedFirstFrame [eventTime=17.93, mediaPos=12.00, window=0, period=0, Surface(name=null)/@0xb7d0b88]
+: positionDiscontinuity [eventTime=17.97, mediaPos=12.10, window=0, period=0, reason=AUTO_TRANSITION, PositionInfo:old [mediaItem=0, period=0, pos=15048, contentPos=12000, adGroup=0, ad=0], PositionInfo:new [mediaItem=0, period=0, pos=12000]]
+[TAG_PLAYER] onPositionDiscontinuity.(PlayerFragment.java:490)
+: tracks [eventTime=17.97, mediaPos=12.10, window=0, period=0
+:   group [
+:     [ ] Track:0, id=1, mimeType=video/avc, bitrate=5500000, codecs=avc1.64002a, drm=[widevine,cenc], res=1920x1080, fps=60.0, supported=NO_EXCEEDS_CAPABILITIES
+:     [X] Track:1, id=2, mimeType=video/avc, bitrate=3000000, codecs=avc1.64001f, drm=[widevine,cenc], res=1280x720, fps=30.0, supported=YES
+:     [X] Track:2, id=3, mimeType=video/avc, bitrate=2048000, codecs=avc1.64001f, drm=[widevine,cenc], res=1024x576, fps=30.0, supported=YES
+:     [X] Track:3, id=4, mimeType=video/avc, bitrate=800000, codecs=avc1.64001e, drm=[widevine,cenc], res=640x360, fps=30.0, supported=YES
+:   ]
+:   group [
+:     [X] Track:0, id=5, mimeType=audio/mp4a-latm, bitrate=96000, codecs=mp4a.40.2, drm=[widevine,cenc], sample_rate=44100, supported=YES
+:   ]
+:   group [
+:     [ ] Track:0, id=6, mimeType=application/ttml+xml, bitrate=256, codecs=stpp, language=en, supported=YES
+:   ]
+: ]
+[TAG_PLAYER] onTracksChanged.(PlayerFragment.java:529)
+[TAG_PLAYER] Ad event: COMPLETED.(ExoPlayerFactoryHelper.java:299)
+[TAG_PLAYER] onAdPeriodFinished.(PlayerFragment$setAdListeners.java:1105)
+: timeline [eventTime=18.00, mediaPos=12.14, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 12136 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441712379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441712379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7557 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18202 ms.(PlayerFragment.java:523)
+[TAG_PLAYER] Ad event: CONTENT_RESUME_REQUESTED.(ExoPlayerFactoryHelper.java:299)
+[TAG_PLAYER] onAdFinished.(PlayerFragment$setAdListeners.java:1053)
+[TAG_PLAYER] Ad event: ALL_ADS_COMPLETED.(ExoPlayerFactoryHelper.java:299)
+[TAG_PLAYER] Failed to load https://domain.com/manifest_113238_dash_4_video_800000_267286.mp4, errorCount: 1, error Response code: 404.(ExoPlayerFactoryHelper$createLoadErrorPolicy.java:389)
+: timeline [eventTime=20.51, mediaPos=10.64, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10643 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441716379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441716379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7561 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18201 ms.(PlayerFragment.java:523)
+: timeline [eventTime=22.51, mediaPos=10.64, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10640 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441718379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441718379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7563 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18200 ms.(PlayerFragment.java:523)
+[TAG_PLAYER] Failed to load https://domain.com/manifest_113238_dash_4_video_800000_267288.mp4, errorCount: 1, error Response code: 404.(ExoPlayerFactoryHelper$createLoadErrorPolicy.java:389)
+: timeline [eventTime=24.51, mediaPos=10.65, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10647 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441720379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441720379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7556 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18200 ms.(PlayerFragment.java:523)
+: timeline [eventTime=26.51, mediaPos=10.65, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10646 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441722379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441722379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7558 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18200 ms.(PlayerFragment.java:523)
+[TAG_PLAYER] Failed to load https://domain.com/manifest_113238_dash_4_video_800000_267290.mp4, errorCount: 1, error Response code: 404.(ExoPlayerFactoryHelper$createLoadErrorPolicy.java:389)
+: timeline [eventTime=28.51, mediaPos=10.64, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10643 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441724379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441724379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7552 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18201 ms.(PlayerFragment.java:523)
+: timeline [eventTime=30.14, mediaPos=12.28, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 12277 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441724379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441724379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7557 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 19832 ms.(PlayerFragment.java:523)
+: timeline [eventTime=30.51, mediaPos=10.64, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10643 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441726379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441726379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7561 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18200 ms.(PlayerFragment.java:523)
+[TAG_PLAYER] Failed to load https://domain.com/manifest_113238_dash_4_video_800000_267292.mp4, errorCount: 1, error Response code: 404.(ExoPlayerFactoryHelper$createLoadErrorPolicy.java:389)
+: timeline [eventTime=32.51, mediaPos=10.65, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10649 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441728379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441728379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7555 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18201 ms.(PlayerFragment.java:523)
+: timeline [eventTime=34.51, mediaPos=10.64, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10644 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441730379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441730379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7560 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18201 ms.(PlayerFragment.java:523)
+[TAG_PLAYER] Failed to load https://domain.com/manifest_113238_dash_4_video_800000_267294.mp4, errorCount: 1, error Response code: 404.(ExoPlayerFactoryHelper$createLoadErrorPolicy.java:389)
+: timeline [eventTime=36.51, mediaPos=10.65, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10646 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441732379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441732379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7558 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18201 ms.(PlayerFragment.java:523)
+[TAG_PLAYER] Failed to load https://domain.com/manifest_113238_dash_4_video_800000_267295.mp4, errorCount: 1, error Response code: 404.(ExoPlayerFactoryHelper$createLoadErrorPolicy.java:389)
+: timeline [eventTime=38.51, mediaPos=10.64, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10644 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441734379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441734379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7560 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18201 ms.(PlayerFragment.java:523)
+: timeline [eventTime=40.51, mediaPos=10.65, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10647 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441736379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441736379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7555 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18200 ms.(PlayerFragment.java:523)
+: timeline [eventTime=42.51, mediaPos=10.65, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10647 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441738379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441738379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7557 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18200 ms.(PlayerFragment.java:523)
+[TAG_PLAYER] Failed to load https://domain.com/manifest_113238_dash_4_video_800000_267298.mp4, errorCount: 1, error Response code: 404.(ExoPlayerFactoryHelper$createLoadErrorPolicy.java:389)
+: timeline [eventTime=44.51, mediaPos=10.65, window=0, period=0, periodCount=1, windowCount=1, reason=SOURCE_UPDATE
+:   period [?]
+:   window [20.00, seekable=true, dynamic=true]
+: ]
+[TAG_PLAYER] onTimelineChanged liveWindow Playback position: 10650 ms.(PlayerFragment.java:513)
+[TAG_PLAYER] onTimelineChanged liveWindow default position: 12000 ms.(PlayerFragment.java:515)
+[TAG_PLAYER] onTimelineChanged liveWindow start time: 1668441740379 ms.(PlayerFragment.java:516)
+[TAG_PLAYER] onTimelineChanged liveWindow currentUnixTime: 1668441740379 ms.(PlayerFragment.java:517)
+[TAG_PLAYER] onTimelineChanged player offset: 7554 ms.(PlayerFragment.java:518)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 6000 ms.(PlayerFragment.java:519)
+[TAG_PLAYER] onTimelineChanged live minPlaybackSpeed: 1.0 ms.(PlayerFragment.java:520)
+[TAG_PLAYER] onTimelineChanged live maxPlaybackSpeed: 1.0 ms.(PlayerFragment.java:521)
+[TAG_PLAYER] onTimelineChanged live minOffsetMs: 2000 ms.(PlayerFragment.java:522)
+[TAG_PLAYER] onTimelineChanged live targetOffset: 18201 ms.(PlayerFragment.java:523)
+```
+
+My understanding is that `availabilityTimeOffset` tells the player when the chunk becomes available to download according to the end time, however we keep getting these 404s.
+
+Is it safe to say the chunk should be available?
+
+The video hosting provider says they manifest is correct and hasn't provided more details.
+
+On another note is it possible to disable low latency even though the manifest has `availabilityTimeOffset` set?
+
+We need to push out a release but can't rely on them to disable low latency so I was hoping there is a way to disable on demand.",['question'],['tonihei'],,2
+10780,Unexpected audio track timestamp discontinuity,closed,2022-11-16 10:55:08,2023-02-01 02:06:05,2022-12-02 10:26:45,"We understand that the player is waiting for a timestamp and receives another, but from what we have seen, both the absolute time it is waiting for and the one it receives are far from being current values ​​since in this case it gives us a date of 2012.
+
+This is an example that we have taken by tracing a specific user and we see that these errors (for any channel) never have a correct timestamp, neither in the expected part nor in the received part, so they do not seem to be reliable.
+![unnamed](https://user-images.githubusercontent.com/74022483/202162075-33441c26-7d19-4fd2-8f02-fbfca74df875.png)
+
+
+ Any idea what could be the cause?",['question'],['icbaker'],,3
+10779,Clear keys not working Drm Sesion,closed,2022-11-15 18:53:53,2023-01-16 02:04:40,2022-11-16 11:52:43,"### ExoPlayer Version
+
+2.18.1
+
+### Devices that reproduce the issue
+
+.
+
+### Devices that do not reproduce the issue
+
+.
+
+### Reproducible in the demo app?
+
+No
+
+### Reproduction steps
+
+```
+ public void playvideoEmbed(String Url) {
+        player = new SimpleExoPlayer.Builder(this)
+                .setMediaSourceFactory(new
+                        DefaultMediaSourceFactory(headers()))
+                .build();
+        playerView.setPlayer(player);
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
+        String vid = ""https://dce-fs-live-dazn-cdn.dazn.com/dashdrm/dazn-linear-017/stream.mpd"";
+
+        Uri videoURI = Uri.parse(vid);
+
+        String keyString = ""{\""keys\"":[{\""kty\"":\""oct\"",\""k\"":\""MGQ2NzEyYmYyYTg0ZWRjYzkzZDAwMWE5NjEzZjZmZWM\"",\""kid\"":\""Y2ZiNWUyYjczYmVmNGYzYzg3OGYyNWFiODZhNzQ1MWY\""}],'type':\""temporary\""}"";
+
+        MediaDrmCallback drmCallback = new LocalMediaDrmCallback(keyString.getBytes());
+
+        MediaSource dashMediaSource = new DashMediaSource.Factory(dataSourceFactory)
+                .setDrmSessionManagerProvider(mediaItem -> {
+                    return new DefaultDrmSessionManager.Builder()
+                            .setPlayClearSamplesWithoutKeys(true)
+                            .setMultiSession(false)
+                            .setKeyRequestParameters(new HashMap<String,String>())
+                            .setUuidAndExoMediaDrmProvider(C.CLEARKEY_UUID, FrameworkMediaDrm.DEFAULT_PROVIDER)
+                            .build(drmCallback);
+                })
+                .createMediaSource(MediaItem.fromUri(videoURI));
+
+
+        player.setMediaSource(dashMediaSource);
+        player.setPlayWhenReady(true);
+        player.prepare();
+        player.play();
+
+    }
+```
+
+### Expected result
+
+/
+
+
+### Actual result
+
+```
+E/ExoPlayerImplInternal: Playback error
+      com.google.android.exoplayer2.ExoPlaybackException: MediaCodecAudioRenderer error, index=1, format=Format(audio_128kbps, null, null, audio/mp4a-latm, mp4a.40.2, 128000, de, [-1, -1, -1.0], [2, 48000]), format_supported=YES
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:566)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:246)
+        at android.os.HandlerThread.run(HandlerThread.java:67)
+     Caused by: android.media.MediaCodec$CryptoException: Crypto key not available
+        at android.media.MediaCodec.native_queueSecureInputBuffer(Native Method)
+        at android.media.MediaCodec.queueSecureInputBuffer(MediaCodec.java:2821)
+        at com.google.android.exoplayer2.mediacodec.SynchronousMediaCodecAdapter.queueSecureInputBuffer(SynchronousMediaCodecAdapter.java:149)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.feedInputBuffer(MediaCodecRenderer.java:1358)
+        at com.google.android.exoplayer2.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:794)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:989)
+        at com.google.android.exoplayer2.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:490)
+        at android.os.Handler.dispatchMessage(Handler.java:102) 
+        at android.os.Looper.loop(Looper.java:246) 
+        at android.os.HandlerThread.run(HandlerThread.java:67) 
+```
+
+### Media
+
+/
+
+### Bug Report
+
+- [ ] You will email the zip file produced by `adb bugreport` to dev.exoplayer@gmail.com after filing this issue.",['bad media'],['icbaker'],,4
+10778,Detect / Handle device faulty codecs,closed,2022-11-15 07:28:42,2023-02-01 02:06:05,2022-12-02 10:26:05,"In my app I changed the renderer order by default to have ffmpeg loaded after mediacodec to simplify things for users who want to enable offloading.
+
+Turns out that there's a lot lot more devices with broken codecs implementations than I thought, and I was wondering if by luck there was some database of known broken devices codecs somewhere that could be used to handle this properly instead of just reverting to have ffmpeg first by default?",['question'],['icbaker'],,2
+10777,Get the real video rendering FPS,closed,2022-11-14 12:56:59,2023-02-01 02:06:06,2022-12-02 10:25:48,"Hi, we need to profile video rendering performance on devices, so is there any way to get real FPS the exoplayer renders at? Or maybe how much time player spends to render each frame? 
+",['question'],['icbaker'],,2
+10776,Add a method to support clearing all download manager helpers on DownloadService class,open,2022-11-14 00:59:33,2023-04-13 15:42:52,,"This method is necessary in case your application supports downloading for multiple users on the same application and the same device.
+
+For example, 
+Login with account A, downloads content A, then logout. 
+Login with account B,  downloads content A (same as content that downloaded on account A).
+After switched to account B, we must to reset the `DownloadManager` to avoid multiple users use the same download folder.
+```
+DownloadManager?.release()
+DownloadManager = null
+```
+In the case we call `DownloadManager?.release()`, if we do not clear all `downloadManagerHelpers`, `DownloadService` can not be started again.
+
+But now `downloadManagerHelpers` is private and we cannot reset it in inherited subclasses. Therefore, it is necessary to have a method to reset it.
+
+Please review and approve this PR.
+Thank you.",[],['marcbaechinger'],,4
+10775,How to get currently playing video track?,closed,2022-11-13 13:14:07,2023-01-15 02:04:12,2022-11-15 08:52:04,"Hi, I am trying to display the current resolution in which the video is playing as youtube does.
+As far as I have checked TrackIndex is required for this. But how to get a track index for current playing tracks?
+
+![image](https://user-images.githubusercontent.com/41418580/201523321-5d30f0b9-259d-47cd-8d17-3427681cd048.png)
+",['question'],['icbaker'],,2
+10774,Exoplayer FFMPEG Extention throws error ,closed,2022-11-13 07:35:41,2023-01-13 02:05:54,2022-11-13 11:58:31,"Good days team and dev,
+i am developing android app and implementing 5.1 DD support so using FFMPEG extention i got it worked with exo 2.18.1 but when  i try to do that on my app which use 2.15 version  it thorws error
+`My exo version   implementation 'com.google.android.exoplayer:exoplayer:2.15.1'`
+Current implementation
+```
+ExoTrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
+        trackSelector = new DefaultTrackSelector(Player.this, videoTrackSelectionFactory);
+        DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this);
+
+renderersFactory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+        simpleExoPlayer = new SimpleExoPlayer.Builder(thisrenderersFactory).setTrackSelector(trackSelector).setSeekForwardIncrementMs(10000).setSeekBackIncrementMs(10000).build();
+        playerView.setPlayer(simpleExoPlayer);
+
+        playerView.setKeepScreenOn(true);
+
+```
+If extention work only after v18  please tell me the change version of code because if i upgrade exoplayer tells to change all the depreciation values 
+including
+
+```
+DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, null /* listener */, DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS, DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, true /* allowCrossProtocolRedirects */)
+
+        if (!defaultRequestProperties.isEmpty()) {
+            httpDataSourceFactory.setDefaultRequestProperties(defaultRequestProperties);
+        }
+
+        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context, null /* listener */, httpDataSourceFactory);
+```
+
+I request anyone to help me
+What i tried:
+stackoverflow (outdated)
+Google demo app (not relevent totally different of my implementation)
+finally my only hope is this platform ","['question', 'needs triage']",[],,2
+10773,SimpleCache corruption debugging and cleanup,open,2022-11-12 09:16:13,2023-03-13 11:54:37,,"So this is a question with multiple points around ExoPlayer simple cache.
+
+I don't have a repro and a way to trigger the source cause of cache corruption but when it happens the player then gives:
+
+```
+Cache read: 64bc5440-66e7-4514-bad8-e14e5c795d83 - 36.0 kB/282.1 MB [B:327680-/music/King Gizzard & The Lizard Wizard/Changes/04 No Body.flac]
+Error/ExoPlayer: internalError [eventTime=6444.95, mediaPos=0.00, window=1, period=1, loadError
+  java.io.EOFException
+      at com.google.android.exoplayer2.extractor.DefaultExtractorInput.readFromUpstream(DefaultExtractorInput.java:296)
+      at com.google.android.exoplayer2.extractor.DefaultExtractorInput.skipFully(DefaultExtractorInput.java:107)
+      at com.google.android.exoplayer2.extractor.DefaultExtractorInput.skipFully(DefaultExtractorInput.java:115)
+      at com.google.android.exoplayer2.extractor.ogg.DefaultOggSeeker.readGranuleOfLastPage(DefaultOggSeeker.java:235)
+      at com.google.android.exoplayer2.extractor.ogg.DefaultOggSeeker.read(DefaultOggSeeker.java:107)
+      at com.google.android.exoplayer2.extractor.ogg.StreamReader.readPayload(StreamReader.java:200)
+      at com.google.android.exoplayer2.extractor.ogg.StreamReader.read(StreamReader.java:123)
+      at com.google.android.exoplayer2.extractor.ogg.OggExtractor.read(OggExtractor.java:88)
+      at com.google.android.exoplayer2.source.BundledExtractorsAdapter.read(BundledExtractorsAdapter.java:127)
+      at com.google.android.exoplayer2.source.ProgressiveMediaPeriod$ExtractingLoadable.load(ProgressiveMediaPeriod.java:1039)
+      at com.google.android.exoplayer2.upstream.Loader$LoadTask.run(Loader.java:412)
+      at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+      at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+      at java.lang.Thread.run(Thread.java:1013)
+```
+
+The first line is details from `onCachedBytesRead` listener.
+So the cache read 36k and stops instead of returning more or switching to the upstream. But there's no other information about what is happening to actually debug more.
+
+So that would be question 1, what can make the cache only read 36k and stops without trying to use the upstream and without logging anything?
+
+The second question is about how can I properly recover from this? This will fails every time so requires a removal of that particular dataspec from the cache, but I can't figure out how to do that, all I find is clear the complete cache and that's not something I want to do if possible.",['question'],['marcbaechinger'],,11
+10772,Edit mode BG color,closed,2022-11-11 13:25:44,2023-01-11 02:04:58,2022-11-11 14:46:15,"Hi developers.
+how to change edit mode background color ?
+```xml
+R.color.exo_edit_mode_background_color
+```
+can change to dark color 😅 ?
+
+sudodios.",['question'],['icbaker'],,1
+10771,Android 13 Support?,closed,2022-11-11 08:04:07,2023-03-11 02:05:21,2023-01-09 15:35:18,"From the release notes, there is no Android 13 compatibility for the latest version#2.18.1. 
+We are wondering when you'll be supporting Android 13. Thanks
+",['question'],['tonihei'],,5
